@@ -4,7 +4,7 @@ This repository contains artefacts from several works around generating and eval
 
 See the [Intent Formalization blog](https://risemsr.github.io/blog/2026-03-05-shuvendu-intent-formalization/) for an overview of the research direction.
 
-- [TiCoder: Test-driven User-Intent Formalization (ICSE'24 article)](https://github.com/microsoft/ticoder)
+- [TiCoder: Test-driven User-Intent Formalization (TSE'24 article)](https://github.com/microsoft/ticoder)
 - [Can Large Language Models Transform Natural Language Intent into Formal Method Postconditions? (FSE'24 article)](nl2postcondition-fse2024)
 - [Evaluating LLM-driven User-Intent Formalization for Verification-Aware Languages (FMCAD'24 article)](eval-formal-specs-fmcad2024)
 - [Intent Formalization for AutoCLRS Algorithms (March '26)](eval-autoclrs-specs)
