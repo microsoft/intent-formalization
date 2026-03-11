@@ -188,6 +188,8 @@ For each algorithm, `agent/algorithms.py` contains:
 2. **Soundness generator** — produces an F* module asserting the spec holds on concrete I/O
 3. **Completeness generator** — produces an F* module asserting the spec uniquely determines output
 
+> **TODO:** We do not currently verify that the test inputs satisfy the algorithm's preconditions. A future improvement would be to add precondition checks for each test case to ensure the inputs are valid before running soundness and completeness tests.
+
 `agent/run_eval.py` orchestrates: generate F* → invoke verifier via WSL → collect results.
 
 ### Example: Sorting Soundness
