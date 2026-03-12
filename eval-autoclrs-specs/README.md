@@ -20,8 +20,8 @@ Given a formal specification φ(x, y) and concrete test cases {(i₁, o₁), …
 
 | Property | Question | F* Encoding |
 |----------|----------|-------------|
-| **Soundness** | Does φ hold on known-good I/O? | `assert_norm (φ(input) == expected_output)` |
-| **Completeness** (Appendix B) | Does φ reject wrong outputs? | `[@@expect_failure] assert_norm (φ(input) == wrong_output)` |
+| **Soundness** | Does φ hold on known-good I/O? | `Lemma (φ(input, expected))` |
+| **Completeness** ([Appendix B](https://arxiv.org/abs/2406.09757)) | Does φ uniquely determine the output? | `Lemma (requires φ(input, y)) (ensures y == expected)` |
 
 A specification that is **sound but incomplete** accepts the correct output but also
 admits wrong outputs (e.g., "sorted" without "permutation" for sorting).
@@ -44,11 +44,11 @@ for details on the verified CLRS algorithms.
 
 ## Evaluation Results — 46 Algorithms Verified ✅
 
-**200 total assertions**: 145 soundness + 55 completeness across 22 chapters.
+**202 total assertions**: 146 soundness + 56 completeness across 22 chapters.
 
 | # | Algorithm | Ch | Test File | Sound | Complete | Notes |
 |---|-----------|-----|-----------|-------|----------|-------|
-| 1 | InsertionSort | ch02 | [Test.InsertionSort.fst](intree-tests/ch02-getting-started/Test.InsertionSort.fst) | ✅ 2 | ✅ 2 | sorted + permutation |
+| 1 | InsertionSort | ch02 | [Test.InsertionSort.fst](intree-tests/ch02-getting-started/Test.InsertionSort.fst) | ✅ 3 | ✅ 3 | sorted + permutation |
 | 2 | MergeSort | ch02 | [Test.MergeSort.fst](intree-tests/ch02-getting-started/Test.MergeSort.fst) | ✅ 4 | ✅ 2 | seq_merge on 1-element seqs |
 | 3 | MaxSubarray (Kadane) | ch04 | [Test.MaxSubarray.fst](intree-tests/ch04-divide-conquer/Test.MaxSubarray.fst) | ✅ 4 | ✅ 2 | max contiguous sum |
 | 4 | BinarySearch | ch04 | [Test.BinarySearch.fst](intree-tests/ch04-divide-conquer/Test.BinarySearch.fst) | ✅ 3 | ✅ 2 | found/not-found |
@@ -102,25 +102,24 @@ for details on the verified CLRS algorithms.
 - **1 skipped** — RBTree has a pre-existing type error in the AutoCLRS `.fsti` file
 - **3 normalization-limited** — BSTArray, MatrixChain, UnionFind test only base/simple cases
 
-### Example: Sorting Soundness
+### Example: Sorting Soundness and Completeness
 
 ```fstar
 module Test.InsertionSort
 
 open CLRS.Common.SortSpec
-open CLRS.Ch02.InsertionSort.Spec
 
-let s0 : Seq.seq int = Seq.seq_of_list [3; 1; 2]
-let sorted_s0 : Seq.seq int = Seq.seq_of_list [1; 2; 3]
+let input : Seq.seq int = Seq.seq_of_list [3; 1; 2]
+let expected : Seq.seq int = Seq.seq_of_list [1; 2; 3]
 
-(* Soundness: spec function produces expected output *)
-let test_sort_sound () : Lemma (pure_insertion_sort s0 == sorted_s0) =
-  assert_norm (pure_insertion_sort s0 == sorted_s0)
+(* Soundness: spec holds on correct I/O pair *)
+let test_sound () : Lemma (sorted expected /\ permutation input expected) =
+  reveal_opaque (`%permutation) (permutation input expected)
 
-(* Completeness: wrong output must fail *)
-[@@expect_failure]
-let test_sort_complete () : Lemma (pure_insertion_sort s0 == Seq.seq_of_list [3; 2; 1]) =
-  assert_norm (pure_insertion_sort s0 == Seq.seq_of_list [3; 2; 1])
+(* Completeness: spec uniquely determines the output *)
+let test_complete (y: Seq.seq int) : Lemma
+  (requires sorted y /\ permutation input y)
+  (ensures y == expected) = ...  (* proved via count unfolding + sorted instantiation *)
 ```
 
 ### Technical Patterns
@@ -128,7 +127,7 @@ let test_sort_complete () : Lemma (pure_insertion_sort s0 == Seq.seq_of_list [3;
 | Pattern | When Used | Example |
 |---------|-----------|---------|
 | `assert_norm (f x == y)` | Pure computation on concrete inputs | `assert_norm (gcd 12 8 == 4)` |
-| `[@@expect_failure]` | Completeness: wrong output must fail | `assert_norm (gcd 12 8 == 3)` |
+| `Lemma (requires φ) (ensures y == o)` | Completeness: spec uniquely determines output | `test_complete` in InsertionSort |
 | `friend ModuleName` | Abstract `.fsti` functions | Dijkstra (`friend CLRS.Ch24.ShortestPath.Inf`) |
 | `reveal_opaque` | Opaque-to-SMT predicates | `permutation` in SortSpec |
 | `open Pulse.Lib.BoundedIntegers` | Sorting tests need `<=` | InsertionSort, MergeSort |
