@@ -4,47 +4,32 @@ open FStar.Mul
 open FStar.Seq
 open CLRS.Ch22.TopologicalSort.Spec
 
-(* Graph: 3 vertices, edges: 0→1, 1→2 (DAG)
-   Adjacency matrix (3×3 flat): adj[0*3+1]=1, adj[1*3+2]=1 *)
+(* Impl function: topological_sort (Pulse)
+   Spec function tested: position_in_order (pure)
+   Graph: 3 vertices, edges: 0->1, 1->2 (DAG)
+   Valid topological order: [0; 1; 2] *)
 let adj : seq int = seq_of_list [0; 1; 0; 0; 0; 1; 0; 0; 0]
-
-(* === Soundness: edge checking === *)
-let test_edge_01 () : Lemma (has_edge 3 adj 0 1 = true) =
-  assert_norm (has_edge 3 adj 0 1 = true)
-
-let test_edge_12 () : Lemma (has_edge 3 adj 1 2 = true) =
-  assert_norm (has_edge 3 adj 1 2 = true)
-
-(* === Soundness: [0; 1; 2] is a valid topological order === *)
 let order : seq nat = seq_of_list [0; 1; 2]
 
-(* Note: position_in_order uses seq scanning that is too complex for assert_norm.
-   We test has_edge (soundness) and completeness via SMT below. *)
+(* === Completeness: position_in_order uniquely determines output === *)
+#push-options "--fuel 4 --ifuel 2 --z3rlimit 100"
+let test_pos_0_complete (y:option nat) : Lemma
+  (requires position_in_order order 0 == y)
+  (ensures y == Some 0) =
+  normalize_term_spec (position_in_order order 0)
 
-let test_no_edge_20 () : Lemma (has_edge 3 adj 2 0 = false) =
-  assert_norm (has_edge 3 adj 2 0 = false)
+let test_pos_1_complete (y:option nat) : Lemma
+  (requires position_in_order order 1 == y)
+  (ensures y == Some 1) =
+  normalize_term_spec (position_in_order order 1)
 
-let test_no_edge_21 () : Lemma (has_edge 3 adj 2 1 = false) =
-  assert_norm (has_edge 3 adj 2 1 = false)
+let test_pos_2_complete (y:option nat) : Lemma
+  (requires position_in_order order 2 == y)
+  (ensures y == Some 2) =
+  normalize_term_spec (position_in_order order 2)
 
-
-(* === Completeness (Appendix B): spec uniquely determines output === *)
-let test_edge_01_complete (y:bool) : Lemma
-  (requires has_edge 3 adj 0 1 = y)
-  (ensures y = true) =
-  assert_norm (has_edge 3 adj 0 1 = true)
-
-let test_edge_12_complete (y:bool) : Lemma
-  (requires has_edge 3 adj 1 2 = y)
-  (ensures y = true) =
-  assert_norm (has_edge 3 adj 1 2 = true)
-
-let test_no_edge_20_complete (y:bool) : Lemma
-  (requires has_edge 3 adj 2 0 = y)
-  (ensures y = false) =
-  assert_norm (has_edge 3 adj 2 0 = false)
-
-let test_no_edge_21_complete (y:bool) : Lemma
-  (requires has_edge 3 adj 2 1 = y)
-  (ensures y = false) =
-  assert_norm (has_edge 3 adj 2 1 = false)
+let test_pos_missing_complete (y:option nat) : Lemma
+  (requires position_in_order order 5 == y)
+  (ensures y == None) =
+  normalize_term_spec (position_in_order order 5)
+#pop-options
