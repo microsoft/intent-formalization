@@ -38,7 +38,7 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 
 | # | Algorithm | Ch | Impl Function | Test File | Status | Notes |
 |---|-----------|-----|--------------|-----------|--------|-------|
-| 1 | Quicksort | ch07 | `quicksort` | [Test.Quicksort.fst](intree-tests/ch07-quicksort/Test.Quicksort.fst) | 🔨 | Pulse test; pending verification |
+| 1 | Quicksort | ch07 | `quicksort` | [Test.Quicksort.fst](intree-tests/ch07-quicksort/Test.Quicksort.fst) | ✅ | Verified with F*+Pulse |
 
 ### Example: Quicksort Completeness Test
 
@@ -48,48 +48,68 @@ ensures exists* s. (A.pts_to a s ** pure (sorted s /\ permutation s0 s))
 ```
 i.e., the output is **sorted** and a **permutation** of the input.
 
+The completeness test:
+1. Creates input array `[3, 1, 2]`
+2. Calls `quicksort arr 3sz` (the Pulse implementation)
+3. Proves the output must be `[1, 2, 3]` via a completeness lemma
+4. Reads each element and asserts `v0 == 1`, `v1 == 2`, `v2 == 3`
+
+The completeness lemma works by:
+- Revealing the opaque `permutation` predicate to expose `FStar.Seq.Properties.permutation`
+- Using `count`-based reasoning: since `[3,1,2]` has exactly one copy of each element, any sorted permutation must be `[1,2,3]`
+- Bridging `BoundedIntegers` typeclass operators (`<=`) to standard `Prims.op_LessThanOrEqual` for Z3
+
+```fstar
+(* Pure helper: sorted + permutation of [3;1;2] uniquely determines [1;2;3] *)
+let std_sort3 (s: Seq.seq int)
+  : Lemma
+    (requires (forall (i j:nat). Prims.op_LessThanOrEqual i j /\
+                                 Prims.op_LessThan j (Seq.length s) ==>
+                                 Prims.op_LessThanOrEqual (Seq.index s i) (Seq.index s j)) /\
+              SP.permutation int (Seq.seq_of_list [3; 1; 2]) s)
+    (ensures Seq.index s 0 == 1 /\ Seq.index s 1 == 2 /\ Seq.index s 2 == 3)
+= SP.perm_len (Seq.seq_of_list [3; 1; 2]) s;
+  assert_norm (SP.count 1 (Seq.seq_of_list [3; 1; 2]) == 1);
+  assert_norm (SP.count 2 (Seq.seq_of_list [3; 1; 2]) == 1);
+  assert_norm (SP.count 3 (Seq.seq_of_list [3; 1; 2]) == 1);
+  assert_norm (SP.count 0 (Seq.seq_of_list [3; 1; 2]) == 0);
+  assert_norm (SP.count 4 (Seq.seq_of_list [3; 1; 2]) == 0)
+
+(* Bridges BoundedIntegers typeclass operators to Prims operators *)
+let completeness_sort3 (s: Seq.seq int)
+  : Lemma
+    (requires SS.sorted s /\ SP.permutation int (Seq.seq_of_list [3; 1; 2]) s)
+    (ensures Seq.index s 0 == 1 /\ Seq.index s 1 == 2 /\ Seq.index s 2 == 3)
+= assert (forall (i j:nat). (i <= j) == Prims.op_LessThanOrEqual i j);
+  assert (forall (x y:int). (x <= y) == Prims.op_LessThanOrEqual x y);
+  std_sort3 s
+```
+
+The Pulse test then calls the implementation and uses the lemma:
 ```pulse
-module Test.Quicksort
-#lang-pulse
-
-open Pulse.Lib.Pervasives
-open Pulse.Lib.Array
-open FStar.SizeT
-open CLRS.Ch07.Quicksort.Impl   // only the Impl — no spec modules
-
 fn test_quicksort_3 ()
   requires emp
   ensures emp
 {
-  // --- Setup input array [3; 1; 2] ---
-  let v = V.alloc 0 3sz;
-  V.to_array_pts_to v;
-  let arr = V.vec_to_array v;
-  rewrite ... as (A.pts_to arr (Seq.create 3 0));
+  // Setup input [3; 1; 2]
+  ...
   arr.(0sz) <- 3; arr.(1sz) <- 1; arr.(2sz) <- 2;
-  // arr now holds s0 = [3; 1; 2]
 
-  // --- Call implementation ---
+  // y = quicksort(x)
   quicksort arr 3sz;
-  // Postcondition gives us: sorted s /\ permutation [3;1;2] s
 
-  // --- Assert output == expected ---
+  // assert(y == expected)
   with s. assert (A.pts_to arr s);
-  // s is the output sequence; we assert it equals [1; 2; 3]
-  assert (pure (s `Seq.equal` Seq.seq_of_list [1; 2; 3]));
-  // F* must prove [1;2;3] is the ONLY sequence satisfying
-  //   sorted s /\ permutation [3;1;2] s
-  // This succeeds iff the spec is COMPLETE
+  reveal_opaque (`%SS.permutation) (SS.permutation s0 s);
+  completeness_sort3 s;
 
-  // --- Cleanup ---
+  let v0 = arr.(0sz); let v1 = arr.(1sz); let v2 = arr.(2sz);
+  assert (pure (v0 == 1));  // ✅ F* proves this
+  assert (pure (v1 == 2));  // ✅ F* proves this
+  assert (pure (v2 == 3));  // ✅ F* proves this
   ...
 }
 ```
-
-The test imports `CLRS.Ch07.Quicksort.Impl` and calls `quicksort` on `[3, 1, 2]`.
-It then asserts the result is `[1, 2, 3]`. If the postcondition (`sorted ∧ permutation`)
-is strong enough to uniquely determine the output, F* can prove `s == [1; 2; 3]` —
-demonstrating completeness. No spec functions are referenced in the test.
 
 ### Verification
 
@@ -103,7 +123,14 @@ make verify
 
 This requires a working F* + Pulse build (see [setup.sh](autoclrs/setup.sh) in the submodule).
 
-**Current status:** Pending — requires Pulse plugin build.
+**Current status:** ✅ Quicksort completeness test verified with F* + Pulse plugin.
+
+```
+$ make verify
+   CHECK           Test.Quicksort.fst
+   Verified module: Test.Quicksort
+   All verification conditions discharged successfully
+```
 
 ## References
 
