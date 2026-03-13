@@ -1,46 +1,41 @@
 module Test.Quicksort
+#lang-pulse
 
-friend CLRS.Ch07.Quicksort.Complexity
+open Pulse.Lib.Pervasives
+open Pulse.Lib.Array
+open FStar.SizeT
+open CLRS.Ch07.Quicksort.Impl
 
-open CLRS.Ch07.Quicksort.Complexity
+module A = Pulse.Lib.Array
+module V = Pulse.Lib.Vec
+module SZ = FStar.SizeT
+module Seq = FStar.Seq
 
-(* worst_case_comparisons(n) = n*(n-1)/2 *)
+(* Completeness: y = quicksort(x); assert(y == expected) *)
+fn test_quicksort_3 ()
+  requires emp
+  returns _: unit
+  ensures emp
+{
+  // Input: [3; 1; 2]
+  let v = V.alloc 0 3sz;
+  V.to_array_pts_to v;
+  let arr = V.vec_to_array v;
+  rewrite (A.pts_to (V.vec_to_array v) (Seq.create 3 0)) as (A.pts_to arr (Seq.create 3 0));
+  arr.(0sz) <- 3;
+  arr.(1sz) <- 1;
+  arr.(2sz) <- 2;
 
-(* === Soundness === *)
-let test_wc_sound_1 () : Lemma (worst_case_comparisons 5 == 10) =
-  assert_norm (worst_case_comparisons 5 == 10)
+  // y = quicksort(x)
+  quicksort arr 3sz;
 
-let test_wc_sound_2 () : Lemma (worst_case_comparisons 3 == 3) =
-  assert_norm (worst_case_comparisons 3 == 3)
+  // assert(y == expected)
+  with s. assert (A.pts_to arr s);
+  assert (pure (s `Seq.equal` Seq.seq_of_list [1; 2; 3]));
 
-let test_wc_sound_3 () : Lemma (worst_case_comparisons 0 == 0) = ()
-
-let test_wc_sound_4 () : Lemma (worst_case_comparisons 1 == 0) =
-  assert_norm (worst_case_comparisons 1 == 0)
-
-(* === Soundness: quadratic bound === *)
-open FStar.Mul
-let test_quadratic_bound () : Lemma (worst_case_comparisons 5 <= 5 * 5) =
-  assert_norm (worst_case_comparisons 5 <= 5 * 5)
-
-
-(* === Completeness (Appendix B): spec uniquely determines output === *)
-let test_wc_complete_1 (y:int) : Lemma
-  (requires worst_case_comparisons 5 == y)
-  (ensures y == 10) =
-  assert_norm (worst_case_comparisons 5 == 10)
-
-let test_wc_complete_2 (y:int) : Lemma
-  (requires worst_case_comparisons 3 == y)
-  (ensures y == 3) =
-  assert_norm (worst_case_comparisons 3 == 3)
-
-let test_wc_complete_3 (y:int) : Lemma
-  (requires worst_case_comparisons 0 == y)
-  (ensures y == 0) =
+  // cleanup
+  rewrite (A.pts_to arr s) as (A.pts_to (V.vec_to_array v) s);
+  V.to_vec_pts_to v;
+  V.free v;
   ()
-
-let test_wc_complete_4 (y:int) : Lemma
-  (requires worst_case_comparisons 1 == y)
-  (ensures y == 0) =
-  assert_norm (worst_case_comparisons 1 == 0)
+}

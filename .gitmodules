@@ -1,0 +1,3 @@
+[submodule "eval-autoclrs-specs/autoclrs"]
+	path = eval-autoclrs-specs/autoclrs
+	url = https://github.com/FStarLang/AutoCLRS.git
