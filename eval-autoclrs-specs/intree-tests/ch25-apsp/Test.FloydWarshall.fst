@@ -30,8 +30,15 @@ let test_sound_3x3 () : Lemma
   assert_norm (fw_entry adj3 3 0 2 3 == 5)
 #pop-options
 
-(* === Completeness: wrong distance must fail === *)
-[@@expect_failure]
-let test_complete () : Lemma
-  (let r = fw_outer adj2 2 0 in index r 1 == 4)
-= assert_norm (index (fw_outer adj2 2 0) 1 == 4)
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+#push-options "--z3rlimit 100"
+let test_fw_complete_1 (y:int) : Lemma
+  (requires fw_entry adj3 3 0 1 3 == y)
+  (ensures y == 2) =
+  assert_norm (fw_entry adj3 3 0 1 3 == 2)
+
+let test_fw_complete_2 (y:int) : Lemma
+  (requires fw_entry adj3 3 0 2 3 == y)
+  (ensures y == 5) =
+  assert_norm (fw_entry adj3 3 0 2 3 == 5)
+#pop-options

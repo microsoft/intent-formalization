@@ -22,12 +22,24 @@ let test_match_sound_3 () : Lemma (matches_at_dec text pattern 0 == false) =
 let test_count_sound () : Lemma (count_matches_up_to text pattern 5 == 2) =
   assert_norm (count_matches_up_to text pattern 5 == 2)
 
-(* === Completeness: wrong match === *)
-[@@expect_failure]
-let test_match_complete () : Lemma (matches_at_dec text pattern 0 == true) =
-  assert_norm (matches_at_dec text pattern 0 == true)
 
-(* === Completeness: wrong count === *)
-[@@expect_failure]
-let test_count_complete () : Lemma (count_matches_up_to text pattern 5 == 3) =
-  assert_norm (count_matches_up_to text pattern 5 == 3)
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_match_complete_1 (y:bool) : Lemma
+  (requires matches_at_dec text pattern 1 == y)
+  (ensures y == true) =
+  assert_norm (matches_at_dec text pattern 1 == true)
+
+let test_match_complete_2 (y:bool) : Lemma
+  (requires matches_at_dec text pattern 3 == y)
+  (ensures y == true) =
+  assert_norm (matches_at_dec text pattern 3 == true)
+
+let test_match_complete_3 (y:bool) : Lemma
+  (requires matches_at_dec text pattern 0 == y)
+  (ensures y == false) =
+  assert_norm (matches_at_dec text pattern 0 == false)
+
+let test_count_complete (y:int) : Lemma
+  (requires count_matches_up_to text pattern 5 == y)
+  (ensures y == 2) =
+  assert_norm (count_matches_up_to text pattern 5 == 2)

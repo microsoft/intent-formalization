@@ -23,7 +23,14 @@ let test_sp_k1 () : Lemma (sp_dist_k adj2 0 1 1 == Some 3) =
 let test_no_path () : Lemma (sp_dist_k adj2 0 1 0 == None) =
   assert_norm (sp_dist_k adj2 0 1 0 == None)
 
-(* === Completeness: wrong distance === *)
-[@@expect_failure]
-let test_sp_complete () : Lemma (sp_dist_k adj2 0 1 1 == Some 4) =
-  assert_norm (sp_dist_k adj2 0 1 1 == Some 4)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_self_dist_complete (y:(option int)) : Lemma
+  (requires sp_dist_k adj2 0 0 0 == y)
+  (ensures y == Some 0) =
+  assert_norm (sp_dist_k adj2 0 0 0 == Some 0)
+
+let test_sp_k1_complete (y:(option int)) : Lemma
+  (requires sp_dist_k adj2 0 1 1 == y)
+  (ensures y == Some 3) =
+  assert_norm (sp_dist_k adj2 0 1 1 == Some 3)

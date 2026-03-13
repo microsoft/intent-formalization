@@ -21,11 +21,19 @@ let test_in_range () : Lemma (in_range [1; 2; 3] 0 5) = ()
 let test_bucket_idx () : Lemma (bucket_index 5 0 10 5 == 2) =
   assert_norm (bucket_index 5 0 10 5 == 2)
 
-(* === Completeness: unsorted list is NOT sorted === *)
-[@@expect_failure]
-let test_sorted_complete () : Lemma (sorted [3; 1; 2]) = ()
 
-(* === Completeness: wrong sort result === *)
-[@@expect_failure]
-let test_isort_complete () : Lemma (insertion_sort [3; 1; 2] == [1; 3; 2]) =
-  assert_norm (insertion_sort [3; 1; 2] == [1; 3; 2])
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_isort_complete (y:(list int)) : Lemma
+  (requires insertion_sort [3; 1; 2] == y)
+  (ensures y == [1; 2; 3]) =
+  assert_norm (insertion_sort [3; 1; 2] == [1; 2; 3])
+
+let test_insert_complete (y:(list int)) : Lemma
+  (requires insert 2 [1; 3; 5] == y)
+  (ensures y == [1; 2; 3; 5]) =
+  assert_norm (insert 2 [1; 3; 5] == [1; 2; 3; 5])
+
+let test_bucket_idx_complete (y:int) : Lemma
+  (requires bucket_index 5 0 10 5 == y)
+  (ensures y == 2) =
+  assert_norm (bucket_index 5 0 10 5 == 2)

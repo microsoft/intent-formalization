@@ -24,7 +24,19 @@ let test_decomp_2 () : Lemma (digit_sum 45 2 10 2 == 45) =
 let test_digit_sum_0 () : Lemma (digit_sum 123 3 10 0 == 0) =
   assert_norm (digit_sum 123 3 10 0 == 0)
 
-(* === Completeness: wrong digit sum === *)
-[@@expect_failure]
-let test_decomp_complete () : Lemma (digit_sum 123 3 10 3 == 124) =
-  assert_norm (digit_sum 123 3 10 3 == 124)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_decomp_complete (y:int) : Lemma
+  (requires digit_sum 123 3 10 3 == y)
+  (ensures y == 123) =
+  assert_norm (digit_sum 123 3 10 3 == 123)
+
+let test_decomp_2_complete (y:int) : Lemma
+  (requires digit_sum 45 2 10 2 == y)
+  (ensures y == 45) =
+  assert_norm (digit_sum 45 2 10 2 == 45)
+
+let test_digit_sum_0_complete (y:int) : Lemma
+  (requires digit_sum 123 3 10 0 == y)
+  (ensures y == 0) =
+  assert_norm (digit_sum 123 3 10 0 == 0)

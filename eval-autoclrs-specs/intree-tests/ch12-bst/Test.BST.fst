@@ -20,10 +20,34 @@ let t_del : bst = bst_delete t 2
 let test_sound_delete () : Lemma (bst_search t_del 2 == false) = ()
 let test_sound_delete_keeps () : Lemma (bst_search t_del 1 == true /\ bst_search t_del 3 == true) = ()
 
-(* === Completeness: search for missing key must fail === *)
-[@@expect_failure]
-let test_complete_search () : Lemma (bst_search t 4 == true) = ()
 
-(* === Completeness: wrong inorder must fail === *)
-[@@expect_failure]
-let test_complete_inorder () : Lemma (bst_inorder t == [2; 1; 3]) = ()
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_complete_search_1 (y:bool) : Lemma
+  (requires bst_search t 1 == y)
+  (ensures y == true) =
+  ()
+
+let test_complete_search_2 (y:bool) : Lemma
+  (requires bst_search t 2 == y)
+  (ensures y == true) =
+  ()
+
+let test_complete_search_3 (y:bool) : Lemma
+  (requires bst_search t 3 == y)
+  (ensures y == true) =
+  ()
+
+let test_complete_valid (y:bool) : Lemma
+  (requires bst_valid t == y)
+  (ensures y == true) =
+  ()
+
+let test_complete_inorder (y:(list int)) : Lemma
+  (requires bst_inorder t == y)
+  (ensures y == [1; 2; 3]) =
+  ()
+
+let test_complete_delete (y:bool) : Lemma
+  (requires bst_search t_del 2 == y)
+  (ensures y == false) =
+  ()

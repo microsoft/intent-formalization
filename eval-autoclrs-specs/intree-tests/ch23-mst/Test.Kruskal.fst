@@ -23,7 +23,19 @@ let g : graph = { n = 3; edges = [e1; e2; e3] }
 let test_kruskal_count () : Lemma (length (pure_kruskal g) == 2) =
   assert_norm (length (pure_kruskal g) == 2)
 
-(* === Completeness: not 3 edges for 3-vertex graph === *)
-[@@expect_failure]
-let test_kruskal_complete () : Lemma (length (pure_kruskal g) == 3) =
-  assert_norm (length (pure_kruskal g) == 3)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_sorted_complete (y:bool) : Lemma
+  (requires is_sorted_by_weight (sort_edges [e1; e2; e3]) = y)
+  (ensures y = true) =
+  assert_norm (is_sorted_by_weight (sort_edges [e1; e2; e3]) = true)
+
+let test_step_adds_complete (y:int) : Lemma
+  (requires length (kruskal_step e2 [] 3) == y)
+  (ensures y == 1) =
+  assert_norm (length (kruskal_step e2 [] 3) == 1)
+
+let test_kruskal_count_complete (y:int) : Lemma
+  (requires length (pure_kruskal g) == y)
+  (ensures y == 2) =
+  assert_norm (length (pure_kruskal g) == 2)

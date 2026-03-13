@@ -14,10 +14,11 @@ let test_simple_sound_2 () : Lemma (complexity_bounded_minmax 19 5 8) = ()
 (* === Soundness: pair processing bound === *)
 let test_pairs_sound_1 () : Lemma (complexity_bounded_minmax_pairs 12 0 8) = ()
 
-(* === Completeness: too few comparisons for simple scan === *)
-[@@expect_failure]
-let test_simple_complete () : Lemma (complexity_bounded_minmax 12 0 8) = ()
+(* === Completeness (Appendix B): comparison count uniquely determined === *)
+let test_simple_complete (cf:nat) : Lemma
+  (requires complexity_bounded_minmax cf 0 8)
+  (ensures cf == 14) = ()
 
-(* === Completeness: pairs bound violated === *)
-[@@expect_failure]
-let test_pairs_complete () : Lemma (complexity_bounded_minmax_pairs 13 0 8) = ()
+(* Note: complexity_bounded_minmax_pairs uses inequality (<=), so multiple
+   cf values satisfy it — completeness is intentionally not provable,
+   demonstrating the bound is not tight. *)

@@ -14,10 +14,15 @@ let test_max_sound_1 () : Lemma (complexity_bounded_max 5 0 6) = ()
 (* === Soundness: 1-element needs 0 comparisons === *)
 let test_min_trivial () : Lemma (complexity_bounded_min 0 0 1) = ()
 
-(* === Completeness: too few comparisons === *)
-[@@expect_failure]
-let test_min_complete_1 () : Lemma (complexity_bounded_min 3 0 6) = ()
+(* === Completeness (Appendix B): comparison count uniquely determined === *)
+let test_min_complete (cf:nat) : Lemma
+  (requires complexity_bounded_min cf 0 6)
+  (ensures cf == 5) = ()
 
-(* === Completeness: wrong offset === *)
-[@@expect_failure]
-let test_min_complete_2 () : Lemma (complexity_bounded_min 4 0 6) = ()
+let test_max_complete (cf:nat) : Lemma
+  (requires complexity_bounded_max cf 0 6)
+  (ensures cf == 5) = ()
+
+let test_min_trivial_complete (cf:nat) : Lemma
+  (requires complexity_bounded_min cf 0 1)
+  (ensures cf == 0) = ()

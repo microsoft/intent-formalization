@@ -24,11 +24,24 @@ let arr5 : Seq.seq int = Seq.seq_of_list [(-1); 4; (-1); 2; (-3)]
 let test_sound_5 () : Lemma (max_subarray_spec arr5 == 5) =
   assert_norm (max_subarray_spec arr5 == 5)
 
-(* === Completeness: wrong sum must fail === *)
-[@@expect_failure]
-let test_complete_1 () : Lemma (max_subarray_spec arr2 == 5) =
-  assert_norm (max_subarray_spec arr2 == 5)
 
-[@@expect_failure]
-let test_complete_2 () : Lemma (max_subarray_spec arr4 == 2) =
-  assert_norm (max_subarray_spec arr4 == 2)
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_complete_2 (y:int) : Lemma
+  (requires max_subarray_spec arr2 == y)
+  (ensures y == 6) =
+  assert_norm (max_subarray_spec arr2 == 6)
+
+let test_complete_3 (y:int) : Lemma
+  (requires max_subarray_spec arr3 == y)
+  (ensures y == 5) =
+  assert_norm (max_subarray_spec arr3 == 5)
+
+let test_complete_4 (y:int) : Lemma
+  (requires max_subarray_spec arr4 == y)
+  (ensures y == 3) =
+  assert_norm (max_subarray_spec arr4 == 3)
+
+let test_complete_5 (y:int) : Lemma
+  (requires max_subarray_spec arr5 == y)
+  (ensures y == 5) =
+  assert_norm (max_subarray_spec arr5 == 5)

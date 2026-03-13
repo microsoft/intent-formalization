@@ -34,7 +34,14 @@ let test_sound_3node () : Lemma
   assert_norm (sp_dist adj3 3 0 2 == 3)
 #pop-options
 
-(* === Completeness: wrong distance must fail === *)
-[@@expect_failure]
-let test_complete_dist () : Lemma (sp_dist adj 2 0 1 == 3) =
-  assert_norm (sp_dist adj 2 0 1 == 3)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_complete_self (y:int) : Lemma
+  (requires sp_dist adj 2 0 0 == y)
+  (ensures y == 0) =
+  assert_norm (sp_dist adj 2 0 0 == 0)
+
+let test_complete_dist (y:int) : Lemma
+  (requires sp_dist adj 2 0 1 == y)
+  (ensures y == 5) =
+  assert_norm (sp_dist adj 2 0 1 == 5)

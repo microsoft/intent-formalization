@@ -22,7 +22,14 @@ let ys2 : Seq.seq int = Seq.seq_of_list [0; 0; 0]
 let test_leftmost_2 () : Lemma (find_leftmost_spec xs2 ys2 == 1) =
   assert_norm (find_leftmost_spec xs2 ys2 == 1)
 
-(* === Completeness: wrong leftmost === *)
-[@@expect_failure]
-let test_leftmost_complete () : Lemma (find_leftmost_spec xs ys == 1) =
-  assert_norm (find_leftmost_spec xs ys == 1)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_leftmost_complete (y:int) : Lemma
+  (requires find_leftmost_spec xs ys == y)
+  (ensures y == 0) =
+  assert_norm (find_leftmost_spec xs ys == 0)
+
+let test_leftmost_2_complete (y:int) : Lemma
+  (requires find_leftmost_spec xs2 ys2 == y)
+  (ensures y == 1) =
+  assert_norm (find_leftmost_spec xs2 ys2 == 1)

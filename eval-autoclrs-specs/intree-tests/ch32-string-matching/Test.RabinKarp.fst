@@ -29,12 +29,34 @@ let test_hash_empty () : Lemma (hash seq123 10 7 0 0 == 0) = ()
 let test_pow_mod () : Lemma (pow_mod 10 2 7 == 2) =
   assert_norm (pow_mod 10 2 7 == 2)
 
-(* === Completeness: wrong hash === *)
-[@@expect_failure]
-let test_hash_complete () : Lemma (hash seq123 10 7 0 3 == 5) =
-  assert_norm (hash seq123 10 7 0 3 == 5)
 
-(* === Completeness: wrong pow === *)
-[@@expect_failure]
-let test_pow_complete () : Lemma (pow 2 3 == 9) =
-  assert_norm (pow 2 3 == 9)
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_pow_1_complete (y:int) : Lemma
+  (requires pow 2 0 == y)
+  (ensures y == 1) =
+  ()
+
+let test_pow_2_complete (y:int) : Lemma
+  (requires pow 2 3 == y)
+  (ensures y == 8) =
+  assert_norm (pow 2 3 == 8)
+
+let test_pow_3_complete (y:int) : Lemma
+  (requires pow 10 2 == y)
+  (ensures y == 100) =
+  assert_norm (pow 10 2 == 100)
+
+let test_hash_complete (y:int) : Lemma
+  (requires hash seq123 10 7 0 3 == y)
+  (ensures y == 4) =
+  assert_norm (hash seq123 10 7 0 3 == 4)
+
+let test_hash_empty_complete (y:int) : Lemma
+  (requires hash seq123 10 7 0 0 == y)
+  (ensures y == 0) =
+  ()
+
+let test_pow_mod_complete (y:int) : Lemma
+  (requires pow_mod 10 2 7 == y)
+  (ensures y == 2) =
+  assert_norm (pow_mod 10 2 7 == 2)

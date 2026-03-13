@@ -21,7 +21,13 @@ let valid1 : seq bool = seq_of_list [true]
 let test_search_beyond_cap () : Lemma (pure_search keys1 valid1 0 0 5 == None) =
   assert_norm (pure_search keys1 valid1 0 0 5 == None)
 
-(* === Completeness: wrong result for empty search === *)
-[@@expect_failure]
-let test_search_complete () : Lemma (pure_search empty_keys empty_valid 0 0 5 == Some 0) =
-  assert_norm (pure_search empty_keys empty_valid 0 0 5 == Some 0)
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_search_empty_complete (y:option nat) : Lemma
+  (requires pure_search empty_keys empty_valid 0 0 5 == y)
+  (ensures y == None) =
+  assert_norm (pure_search empty_keys empty_valid 0 0 5 == None)
+
+let test_search_beyond_complete (y:option nat) : Lemma
+  (requires pure_search keys1 valid1 0 0 5 == y)
+  (ensures y == None) =
+  assert_norm (pure_search keys1 valid1 0 0 5 == None)

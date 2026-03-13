@@ -29,7 +29,19 @@ let test_discover_time () : Lemma (st1.time == 1) =
 let test_other_unchanged () : Lemma (Seq.index st1.color 1 == White) =
   assert_norm (Seq.index st1.color 1 == White)
 
-(* === Completeness: wrong color after discover === *)
-[@@expect_failure]
-let test_color_complete () : Lemma (Seq.index st1.color 0 == Black) =
-  assert_norm (Seq.index st1.color 0 == Black)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_init_time_complete (y:int) : Lemma
+  (requires st0.time == y)
+  (ensures y == 0) =
+  ()
+
+let test_init_n_complete (y:int) : Lemma
+  (requires st0.n == y)
+  (ensures y == 3) =
+  ()
+
+let test_discover_time_complete (y:int) : Lemma
+  (requires st1.time == y)
+  (ensures y == 1) =
+  assert_norm (st1.time == 1)

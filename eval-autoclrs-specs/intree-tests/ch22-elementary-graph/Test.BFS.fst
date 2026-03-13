@@ -36,7 +36,29 @@ let test_visited_source () : Lemma (is_visited 3 adj 0 0 0 = true) =
 let test_frontier_1 () : Lemma (is_frontier 3 adj 0 1 1 = true) =
   assert_norm (is_frontier 3 adj 0 1 1 = true)
 
-(* === Completeness: vertex 1 not in frontier at level 0 === *)
-[@@expect_failure]
-let test_frontier_complete () : Lemma (is_frontier 3 adj 0 0 1 = true) =
-  assert_norm (is_frontier 3 adj 0 0 1 = true)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_edge_01_complete (y:bool) : Lemma
+  (requires has_edge 3 adj 0 1 = y)
+  (ensures y = true) =
+  assert_norm (has_edge 3 adj 0 1 = true)
+
+let test_edge_02_complete (y:bool) : Lemma
+  (requires has_edge 3 adj 0 2 = y)
+  (ensures y = true) =
+  assert_norm (has_edge 3 adj 0 2 = true)
+
+let test_no_edge_10_complete (y:bool) : Lemma
+  (requires has_edge 3 adj 1 0 = y)
+  (ensures y = false) =
+  assert_norm (has_edge 3 adj 1 0 = false)
+
+let test_visited_source_complete (y:bool) : Lemma
+  (requires is_visited 3 adj 0 0 0 = y)
+  (ensures y = true) =
+  assert_norm (is_visited 3 adj 0 0 0 = true)
+
+let test_frontier_1_complete (y:bool) : Lemma
+  (requires is_frontier 3 adj 0 1 1 = y)
+  (ensures y = true) =
+  assert_norm (is_frontier 3 adj 0 1 1 = true)

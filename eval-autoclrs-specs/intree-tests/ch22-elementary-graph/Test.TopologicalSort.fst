@@ -27,7 +27,24 @@ let test_no_edge_20 () : Lemma (has_edge 3 adj 2 0 = false) =
 let test_no_edge_21 () : Lemma (has_edge 3 adj 2 1 = false) =
   assert_norm (has_edge 3 adj 2 1 = false)
 
-(* === Completeness: wrong edge returns false === *)
-[@@expect_failure]
-let test_edge_complete () : Lemma (has_edge 3 adj 0 2 = true) =
-  assert_norm (has_edge 3 adj 0 2 = true)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_edge_01_complete (y:bool) : Lemma
+  (requires has_edge 3 adj 0 1 = y)
+  (ensures y = true) =
+  assert_norm (has_edge 3 adj 0 1 = true)
+
+let test_edge_12_complete (y:bool) : Lemma
+  (requires has_edge 3 adj 1 2 = y)
+  (ensures y = true) =
+  assert_norm (has_edge 3 adj 1 2 = true)
+
+let test_no_edge_20_complete (y:bool) : Lemma
+  (requires has_edge 3 adj 2 0 = y)
+  (ensures y = false) =
+  assert_norm (has_edge 3 adj 2 0 = false)
+
+let test_no_edge_21_complete (y:bool) : Lemma
+  (requires has_edge 3 adj 2 1 = y)
+  (ensures y = false) =
+  assert_norm (has_edge 3 adj 2 1 = false)

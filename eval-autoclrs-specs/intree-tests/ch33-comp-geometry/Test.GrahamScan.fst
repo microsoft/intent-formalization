@@ -25,7 +25,14 @@ let test_cross () : Lemma (cross_prod 0 0 1 0 0 1 == 1) = ()
 let test_polar () : Lemma (polar_cmp_spec xs ys 0 1 2 > 0) =
   assert_norm (polar_cmp_spec xs ys 0 1 2 > 0)
 
-(* === Completeness: wrong bottom point === *)
-[@@expect_failure]
-let test_bottom_complete () : Lemma (find_bottom_spec xs ys == 1) =
-  assert_norm (find_bottom_spec xs ys == 1)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_bottom_complete (y:int) : Lemma
+  (requires find_bottom_spec xs ys == y)
+  (ensures y == 0) =
+  assert_norm (find_bottom_spec xs ys == 0)
+
+let test_cross_complete (y:int) : Lemma
+  (requires cross_prod 0 0 1 0 0 1 == y)
+  (ensures y == 1) =
+  ()

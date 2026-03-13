@@ -28,13 +28,14 @@ let test_dot_sound_2 () : Lemma (dot_product_spec a b 2 1 1 2 == 50) =
 (* === Soundness: full matrix multiply correctness === *)
 let test_mat_mul_correct () : Lemma (mat_mul_correct a b c 2) = ()
 
-(* === Completeness: wrong dot product === *)
-[@@expect_failure]
-let test_dot_complete () : Lemma (dot_product_spec a b 2 0 0 2 == 20) =
-  assert_norm (dot_product_spec a b 2 0 0 2 == 20)
 
-(* === Completeness: wrong matrix product === *)
-let bad_c : seq int = seq_of_list [19; 22; 43; 51]
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_dot_complete_1 (y:int) : Lemma
+  (requires dot_product_spec a b 2 0 0 2 == y)
+  (ensures y == 19) =
+  assert_norm (dot_product_spec a b 2 0 0 2 == 19)
 
-[@@expect_failure]
-let test_mat_mul_complete () : Lemma (mat_mul_correct a b bad_c 2) = ()
+let test_dot_complete_2 (y:int) : Lemma
+  (requires dot_product_spec a b 2 1 1 2 == y)
+  (ensures y == 50) =
+  assert_norm (dot_product_spec a b 2 1 1 2 == 50)

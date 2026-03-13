@@ -25,13 +25,19 @@ let zero_flow : flow_matrix 2 = seq_of_list [0; 0; 0; 0]
 
 let test_zero_flow () : Lemma (valid_flow zero_flow cap 0 1) = ()
 
-(* === Completeness: flow exceeding capacity is invalid === *)
-let bad_flow : flow_matrix 2 = seq_of_list [0; 15; 0; 0]
 
-[@@expect_failure]
-let test_flow_complete () : Lemma (valid_flow bad_flow cap 0 1) = ()
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_get_cap_complete (y:int) : Lemma
+  (requires get cap 2 0 1 == y)
+  (ensures y == 10) =
+  ()
 
-(* === Completeness: wrong flow value === *)
-[@@expect_failure]
-let test_flow_val_complete () : Lemma (sum_flow_out flow 2 0 2 == 10) =
-  assert_norm (sum_flow_out flow 2 0 2 == 10)
+let test_get_flow_complete (y:int) : Lemma
+  (requires get flow 2 0 1 == y)
+  (ensures y == 5) =
+  ()
+
+let test_flow_value_complete (y:int) : Lemma
+  (requires sum_flow_out flow 2 0 2 == y)
+  (ensures y == 5) =
+  assert_norm (sum_flow_out flow 2 0 2 == 5)

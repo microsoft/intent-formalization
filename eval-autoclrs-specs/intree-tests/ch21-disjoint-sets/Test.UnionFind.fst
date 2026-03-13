@@ -25,7 +25,14 @@ let test_find_1 () : Lemma (pure_find init_uf 1 == 1) =
 (* Note: compound pure_union + pure_find is too complex for assert_norm.
    The individual pure_find tests above demonstrate soundness. *)
 
-(* === Completeness: find does not return wrong root === *)
-[@@expect_failure]
-let test_find_complete () : Lemma (pure_find init_uf 0 == 1) =
-  assert_norm (pure_find init_uf 0 == 1)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_find_0_complete (y:int) : Lemma
+  (requires pure_find init_uf 0 == y)
+  (ensures y == 0) =
+  assert_norm (pure_find init_uf 0 == 0)
+
+let test_find_1_complete (y:int) : Lemma
+  (requires pure_find init_uf 1 == y)
+  (ensures y == 1) =
+  assert_norm (pure_find init_uf 1 == 1)

@@ -33,12 +33,29 @@ let test_cost_merged () : Lemma (cost merged == 14) =
 let test_wpl_cost () : Lemma (weighted_path_length merged == cost merged) =
   wpl_equals_cost merged
 
-(* === Completeness: wrong frequency === *)
-[@@expect_failure]
-let test_freq_complete () : Lemma (freq_of merged == 13) =
-  assert_norm (freq_of merged == 13)
 
-(* === Completeness: wrong WPL === *)
-[@@expect_failure]
-let test_wpl_complete () : Lemma (weighted_path_length merged == 13) =
-  assert_norm (weighted_path_length merged == 13)
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_freq_leaf_complete (y:int) : Lemma
+  (requires freq_of l1 == y)
+  (ensures y == 5) =
+  ()
+
+let test_merge_freq_complete (y:int) : Lemma
+  (requires freq_of merged == y)
+  (ensures y == 14) =
+  assert_norm (freq_of merged == 14)
+
+let test_wpl_leaf_complete (y:int) : Lemma
+  (requires weighted_path_length l1 == y)
+  (ensures y == 0) =
+  assert_norm (weighted_path_length l1 == 0)
+
+let test_wpl_merged_complete (y:int) : Lemma
+  (requires weighted_path_length merged == y)
+  (ensures y == 14) =
+  assert_norm (weighted_path_length merged == 14)
+
+let test_cost_merged_complete (y:int) : Lemma
+  (requires cost merged == y)
+  (ensures y == 14) =
+  assert_norm (cost merged == 14)

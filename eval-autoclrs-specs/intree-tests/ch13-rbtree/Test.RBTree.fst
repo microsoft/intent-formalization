@@ -34,14 +34,34 @@ let test_search_root () : Lemma (search t3 5 == Some 5) =
 let test_search_absent () : Lemma (search t3 4 == None) =
   assert_norm (search t3 4 == None)
 
-(* === Completeness: wrong search result === *)
-[@@expect_failure]
-let test_search_complete_1 () : Lemma (search t3 4 == Some 4) =
-  assert_norm (search t3 4 == Some 4)
 
-(* === Completeness: wrong RB tree validity === *)
-let bad_tree = Node Red (Node Red Leaf 1 Leaf) 2 Leaf
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_insert_single_complete (y:bool) : Lemma
+  (requires is_rbtree t1 = y)
+  (ensures y = true) =
+  assert_norm (is_rbtree t1 = true)
 
-[@@expect_failure]
-let test_rbtree_complete () : Lemma (is_rbtree bad_tree = true) =
-  assert_norm (is_rbtree bad_tree = true)
+let test_search_found_complete (y:(option int)) : Lemma
+  (requires search t1 5 == y)
+  (ensures y == Some 5) =
+  assert_norm (search t1 5 == Some 5)
+
+let test_rbtree_valid_complete (y:bool) : Lemma
+  (requires is_rbtree t3 = y)
+  (ensures y = true) =
+  assert_norm (is_rbtree t3 = true)
+
+let test_search_left_complete (y:(option int)) : Lemma
+  (requires search t3 3 == y)
+  (ensures y == Some 3) =
+  assert_norm (search t3 3 == Some 3)
+
+let test_search_right_complete (y:(option int)) : Lemma
+  (requires search t3 7 == y)
+  (ensures y == Some 7) =
+  assert_norm (search t3 7 == Some 7)
+
+let test_search_root_complete (y:(option int)) : Lemma
+  (requires search t3 5 == y)
+  (ensures y == Some 5) =
+  assert_norm (search t3 5 == Some 5)

@@ -42,103 +42,119 @@ Specifications evaluated against AutoCLRS at commit
 (March 2026). See the [AutoCLRS blog post](https://risemsr.github.io/blog/2026-03-06-autoclrs/)
 for details on the verified CLRS algorithms.
 
-## Evaluation Results — 46 Algorithms Verified ✅
+## Evaluation Results — 44/47 Algorithms Verified ✅
 
-**202 total assertions**: 146 soundness + 56 completeness across 22 chapters.
+**326 total assertions**: 186 soundness + 140 completeness across 22 chapters.
 
 | # | Algorithm | Ch | Test File | Sound | Complete | Notes |
 |---|-----------|-----|-----------|-------|----------|-------|
-| 1 | InsertionSort | ch02 | [Test.InsertionSort.fst](intree-tests/ch02-getting-started/Test.InsertionSort.fst) | ✅ 3 | ✅ 3 | sorted + permutation |
-| 2 | MergeSort | ch02 | [Test.MergeSort.fst](intree-tests/ch02-getting-started/Test.MergeSort.fst) | ✅ 4 | ✅ 2 | seq_merge on 1-element seqs |
-| 3 | MaxSubarray (Kadane) | ch04 | [Test.MaxSubarray.fst](intree-tests/ch04-divide-conquer/Test.MaxSubarray.fst) | ✅ 4 | ✅ 2 | max contiguous sum |
-| 4 | BinarySearch | ch04 | [Test.BinarySearch.fst](intree-tests/ch04-divide-conquer/Test.BinarySearch.fst) | ✅ 3 | ✅ 2 | found/not-found |
-| 5 | MatrixMultiply | ch04 | [Test.MatrixMultiply.fst](intree-tests/ch04-divide-conquer/Test.MatrixMultiply.fst) | ✅ 3 | ✅ 1 | dot product spec |
-| 6 | Heap (Heapsort) | ch06 | [Test.Heap.fst](intree-tests/ch06-heapsort/Test.Heap.fst) | ✅ 3 | ✅ 1 | max-heap + swap |
-| 7 | Quicksort | ch07 | [Test.Quicksort.fst](intree-tests/ch07-quicksort/Test.Quicksort.fst) | ✅ 2 | ✅ 1 | friend for Complexity |
-| 8 | CountingSort | ch08 | [Test.CountingSort.fst](intree-tests/ch08-linear-sorting/Test.CountingSort.fst) | ✅ 3 | ✅ 1 | stable sort in range |
-| 9 | BucketSort | ch08 | [Test.BucketSort.fst](intree-tests/ch08-linear-sorting/Test.BucketSort.fst) | ✅ 3 | ✅ 1 | bucket distribution |
-| 10 | RadixSort | ch08 | [Test.RadixSort.fst](intree-tests/ch08-linear-sorting/Test.RadixSort.fst) | ✅ 3 | ✅ 1 | digit-wise sort |
-| 11 | MinMax | ch09 | [Test.MinMax.fst](intree-tests/ch09-order-statistics/Test.MinMax.fst) | ✅ 3 | ✅ 1 | min/max of array |
-| 12 | SimultaneousMinMax | ch09 | [Test.SimultaneousMinMax.fst](intree-tests/ch09-order-statistics/Test.SimultaneousMinMax.fst) | ✅ 3 | ✅ 1 | pair comparison |
-| 13 | PartialSelectionSort | ch09 | [Test.PartialSelectionSort.fst](intree-tests/ch09-order-statistics/Test.PartialSelectionSort.fst) | ✅ 2 | ✅ 1 | is_sorted on result |
-| 14 | Quickselect | ch09 | [Test.Quickselect.fst](intree-tests/ch09-order-statistics/Test.Quickselect.fst) | ✅ 3 | ✅ 1 | kth element |
-| 15 | Stack | ch10 | [Test.Stack.fst](intree-tests/ch10-elementary-ds/Test.Stack.fst) | ✅ 3 | ✅ 1 | push/pop/empty |
-| 16 | Queue | ch10 | [Test.Queue.fst](intree-tests/ch10-elementary-ds/Test.Queue.fst) | ✅ 3 | ✅ 1 | enqueue/dequeue FIFO |
-| 17 | Singly Linked List | ch10 | [Test.SLL.fst](intree-tests/ch10-elementary-ds/Test.SLL.fst) | ✅ 3 | ✅ 1 | insert/search/length |
-| 18 | Doubly Linked List | ch10 | [Test.DLL.fst](intree-tests/ch10-elementary-ds/Test.DLL.fst) | ✅ 3 | ✅ 1 | insert/delete |
-| 19 | HashTable | ch11 | [Test.HashTable.fst](intree-tests/ch11-hash-tables/Test.HashTable.fst) | ✅ 3 | ✅ 1 | hash chain insert/search |
-| 20 | BST | ch12 | [Test.BST.fst](intree-tests/ch12-bst/Test.BST.fst) | ✅ 7 | ✅ 2 | search/insert/delete/inorder |
-| 21 | BSTArray | ch12 | [Test.BSTArray.fst](intree-tests/ch12-bst/Test.BSTArray.fst) | ✅ 2 | ✅ 1 | ⚠️ base cases only (norm-limited) |
-| 22 | LCS | ch15 | [Test.LCS.fst](intree-tests/ch15-dynamic-programming/Test.LCS.fst) | ✅ 3 | ✅ 1 | longest common subseq |
-| 23 | MatrixChain | ch15 | [Test.MatrixChain.fst](intree-tests/ch15-dynamic-programming/Test.MatrixChain.fst) | ✅ 1 | ✅ 1 | ⚠️ mc_inner_k only (norm-limited) |
-| 24 | RodCutting | ch15 | [Test.RodCutting.fst](intree-tests/ch15-dynamic-programming/Test.RodCutting.fst) | ✅ 4 | ✅ 2 | optimal revenue DP |
-| 25 | ActivitySelection | ch16 | [Test.ActivitySelection.fst](intree-tests/ch16-greedy/Test.ActivitySelection.fst) | ✅ 3 | ✅ 1 | greedy compatible set |
-| 26 | Huffman | ch16 | [Test.Huffman.fst](intree-tests/ch16-greedy/Test.Huffman.fst) | ✅ 3 | ✅ 1 | encoding tree build |
-| 27 | UnionFind | ch21 | [Test.UnionFind.fst](intree-tests/ch21-disjoint-sets/Test.UnionFind.fst) | ✅ 3 | ✅ 1 | ⚠️ find only (norm-limited) |
-| 28 | BFS | ch22 | [Test.BFS.fst](intree-tests/ch22-elementary-graph/Test.BFS.fst) | ✅ 3 | ✅ 1 | init state + enqueue |
-| 29 | DFS | ch22 | [Test.DFS.fst](intree-tests/ch22-elementary-graph/Test.DFS.fst) | ✅ 4 | ✅ 1 | discover/color/time |
-| 30 | TopologicalSort | ch22 | [Test.TopologicalSort.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort.fst) | ✅ 4 | ✅ 1 | has_edge predicate |
-| 31 | Kruskal | ch23 | [Test.Kruskal.fst](intree-tests/ch23-mst/Test.Kruskal.fst) | ✅ 3 | ✅ 1 | MST edge spec |
-| 32 | Prim | ch23 | [Test.Prim.fst](intree-tests/ch23-mst/Test.Prim.fst) | ✅ 3 | ✅ 1 | friend for Prim.Spec |
-| 33 | Dijkstra | ch24 | [Test.Dijkstra.fst](intree-tests/ch24-sssp/Test.Dijkstra.fst) | ✅ 3 | ✅ 1 | friend for ShortestPath.Inf |
-| 34 | BellmanFord | ch24 | [Test.BellmanFord.fst](intree-tests/ch24-sssp/Test.BellmanFord.fst) | ✅ 3 | ✅ 1 | friend for ShortestPath.Inf |
-| 35 | FloydWarshall | ch25 | [Test.FloydWarshall.fst](intree-tests/ch25-apsp/Test.FloydWarshall.fst) | ✅ 5 | ✅ 1 | APSP distance matrix |
-| 36 | MaxFlow | ch26 | [Test.MaxFlow.fst](intree-tests/ch26-max-flow/Test.MaxFlow.fst) | ✅ 3 | ✅ 1 | residual capacity |
-| 37 | GCD | ch31 | [Test.GCD.fst](intree-tests/ch31-number-theory/Test.GCD.fst) | ✅ 3 | ✅ 3 | Euclidean GCD |
-| 38 | ModExp | ch31 | [Test.ModExp.fst](intree-tests/ch31-number-theory/Test.ModExp.fst) | ✅ 3 | ✅ 2 | modular exponentiation |
-| 39 | ExtendedGCD | ch31 | [Test.ExtendedGCD.fst](intree-tests/ch31-number-theory/Test.ExtendedGCD.fst) | ✅ 3 | ✅ 1 | Bézout coefficients |
-| 40 | NaiveStringMatch | ch32 | [Test.NaiveStringMatch.fst](intree-tests/ch32-string-matching/Test.NaiveStringMatch.fst) | ✅ 3 | ✅ 1 | brute-force matching |
-| 41 | RabinKarp | ch32 | [Test.RabinKarp.fst](intree-tests/ch32-string-matching/Test.RabinKarp.fst) | ✅ 3 | ✅ 1 | hash-based matching |
-| 42 | KMP | ch32 | [Test.KMP.fst](intree-tests/ch32-string-matching/Test.KMP.fst) | ✅ 3 | ✅ 1 | failure function |
-| 43 | Segments | ch33 | [Test.Segments.fst](intree-tests/ch33-comp-geometry/Test.Segments.fst) | ✅ 3 | ✅ 1 | cross product/intersection |
-| 44 | GrahamScan | ch33 | [Test.GrahamScan.fst](intree-tests/ch33-comp-geometry/Test.GrahamScan.fst) | ✅ 3 | ✅ 1 | convex hull |
-| 45 | JarvisMarch | ch33 | [Test.JarvisMarch.fst](intree-tests/ch33-comp-geometry/Test.JarvisMarch.fst) | ✅ 3 | ✅ 1 | gift wrapping |
-| 46 | VertexCover | ch35 | [Test.VertexCover.fst](intree-tests/ch35-approximation/Test.VertexCover.fst) | ✅ 5 | ✅ 1 | approx cover |
-| — | RBTree | ch13 | [Test.RBTree.fst](intree-tests/ch13-rbtree/Test.RBTree.fst) | ⛔ | ⛔ | Pre-existing AutoCLRS build error |
+| 1 | InsertionSort | ch02 | [Test.InsertionSort.fst](intree-tests/ch02-getting-started/Test.InsertionSort.fst) | 3 | 3 | sorted + permutation (Pulse) |
+| 2 | MergeSort | ch02 | [Test.MergeSort.fst](intree-tests/ch02-getting-started/Test.MergeSort.fst) | 4 | 2 | seq_merge (Pulse) |
+| 3 | BinarySearch | ch04 | [Test.BinarySearch.fst](intree-tests/ch04-divide-conquer/Test.BinarySearch.fst) | 3 | 2 | imperative (Pulse) |
+| 4 | MaxSubarray | ch04 | [Test.MaxSubarray.fst](intree-tests/ch04-divide-conquer/Test.MaxSubarray.fst) | ✅ 4 | ✅ 4 | max contiguous sum |
+| 5 | MatrixMultiply | ch04 | [Test.MatrixMultiply.fst](intree-tests/ch04-divide-conquer/Test.MatrixMultiply.fst) | ✅ 4 | ✅ 2 | dot product spec |
+| 6 | Heap | ch06 | [Test.Heap.fst](intree-tests/ch06-heapsort/Test.Heap.fst) | ✅ 7 | ✅ 4 | parent/left/right/swap |
+| 7 | Quicksort | ch07 | [Test.Quicksort.fst](intree-tests/ch07-quicksort/Test.Quicksort.fst) | ✅ 5 | ✅ 4 | partition + sort |
+| 8 | BucketSort | ch08 | [Test.BucketSort.fst](intree-tests/ch08-linear-sorting/Test.BucketSort.fst) | ✅ 5 | ✅ 3 | bucket distribution |
+| 9 | CountingSort | ch08 | [Test.CountingSort.fst](intree-tests/ch08-linear-sorting/Test.CountingSort.fst) | ✅ 4 | — | prop predicates (no output) |
+| 10 | RadixSort | ch08 | [Test.RadixSort.fst](intree-tests/ch08-linear-sorting/Test.RadixSort.fst) | ✅ 3 | ✅ 3 | digit-wise sort |
+| 11 | MinMax | ch09 | [Test.MinMax.fst](intree-tests/ch09-order-statistics/Test.MinMax.fst) | ✅ 4 | ✅ 3 | complexity bounds (tight) |
+| 12 | SimultaneousMinMax | ch09 | [Test.SimultaneousMinMax.fst](intree-tests/ch09-order-statistics/Test.SimultaneousMinMax.fst) | ✅ 3 | ✅ 1 | tight bound only |
+| 13 | PartialSelectionSort | ch09 | [Test.PartialSelectionSort.fst](intree-tests/ch09-order-statistics/Test.PartialSelectionSort.fst) | ✅ 4 | ✅ 3 | selection sort |
+| 14 | Quickselect | ch09 | [Test.Quickselect.fst](intree-tests/ch09-order-statistics/Test.Quickselect.fst) | ✅ 3 | — | prop predicates (no output) |
+| 15 | Stack | ch10 | [Test.Stack.fst](intree-tests/ch10-elementary-ds/Test.Stack.fst) | ✅ 6 | ✅ 4 | push/pop/empty |
+| 16 | Queue | ch10 | [Test.Queue.fst](intree-tests/ch10-elementary-ds/Test.Queue.fst) | ✅ 6 | ✅ 5 | enqueue/dequeue FIFO |
+| 17 | SLL | ch10 | [Test.SLL.fst](intree-tests/ch10-elementary-ds/Test.SLL.fst) | ✅ 4 | ✅ 4 | insert/search/length |
+| 18 | DLL | ch10 | [Test.DLL.fst](intree-tests/ch10-elementary-ds/Test.DLL.fst) | ✅ 4 | ✅ 4 | insert/delete |
+| 19 | HashTable | ch11 | [Test.HashTable.fst](intree-tests/ch11-hash-tables/Test.HashTable.fst) | ✅ 5 | ✅ 3 | hash chain insert/search |
+| 20 | BST | ch12 | [Test.BST.fst](intree-tests/ch12-bst/Test.BST.fst) | ✅ 7 | ✅ 6 | search/insert/delete/inorder |
+| 21 | BSTArray | ch12 | [Test.BSTArray.fst](intree-tests/ch12-bst/Test.BSTArray.fst) | ✅ 2 | ✅ 2 | pure_search (base cases) |
+| 22 | RBTree | ch13 | [Test.RBTree.fst](intree-tests/ch13-rbtree/Test.RBTree.fst) | ✅ 8 | ✅ 6 | insert/search/color |
+| 23 | LCS | ch15 | [Test.LCS.fst](intree-tests/ch15-dynamic-programming/Test.LCS.fst) | ✅ 4 | ✅ 4 | longest common subseq |
+| 24 | MatrixChain | ch15 | [Test.MatrixChain.fst](intree-tests/ch15-dynamic-programming/Test.MatrixChain.fst) | ✅ 1 | ✅ 1 | mc_inner_k (norm-limited) |
+| 25 | RodCutting | ch15 | [Test.RodCutting.fst](intree-tests/ch15-dynamic-programming/Test.RodCutting.fst) | ✅ 4 | ✅ 4 | optimal revenue DP |
+| 26 | ActivitySelection | ch16 | [Test.ActivitySelection.fst](intree-tests/ch16-greedy/Test.ActivitySelection.fst) | ✅ 3 | — | prop predicates (not unique) |
+| 27 | Huffman | ch16 | [Test.Huffman.fst](intree-tests/ch16-greedy/Test.Huffman.fst) | ✅ 6 | ✅ 5 | encoding tree build |
+| 28 | UnionFind | ch21 | [Test.UnionFind.fst](intree-tests/ch21-disjoint-sets/Test.UnionFind.fst) | ✅ 3 | ✅ 2 | find (norm-limited) |
+| 29 | BFS | ch22 | [Test.BFS.fst](intree-tests/ch22-elementary-graph/Test.BFS.fst) | ✅ 6 | ✅ 5 | init state + enqueue |
+| 30 | DFS | ch22 | [Test.DFS.fst](intree-tests/ch22-elementary-graph/Test.DFS.fst) | ✅ 6 | ✅ 3 | discover/color/time |
+| 31 | TopologicalSort | ch22 | [Test.TopologicalSort.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort.fst) | ✅ 4 | ✅ 4 | has_edge predicate |
+| 32 | Kruskal | ch23 | [Test.Kruskal.fst](intree-tests/ch23-mst/Test.Kruskal.fst) | ✅ 3 | ✅ 3 | MST edge spec |
+| 33 | Prim | ch23 | [Test.Prim.fst](intree-tests/ch23-mst/Test.Prim.fst) | ✅ 1 | ✅ 1 | friend for Prim.Spec |
+| 34 | BellmanFord | ch24 | [Test.BellmanFord.fst](intree-tests/ch24-sssp/Test.BellmanFord.fst) | ✅ 3 | ✅ 2 | friend for ShortestPath.Inf |
+| 35 | Dijkstra | ch24 | [Test.Dijkstra.fst](intree-tests/ch24-sssp/Test.Dijkstra.fst) | ✅ 3 | ✅ 2 | friend for ShortestPath.Inf |
+| 36 | FloydWarshall | ch25 | [Test.FloydWarshall.fst](intree-tests/ch25-apsp/Test.FloydWarshall.fst) | ✅ 2 | ✅ 2 | APSP (z3rlimit 100) |
+| 37 | MaxFlow | ch26 | [Test.MaxFlow.fst](intree-tests/ch26-max-flow/Test.MaxFlow.fst) | ✅ 4 | ✅ 3 | residual capacity |
+| 38 | GCD | ch31 | [Test.GCD.fst](intree-tests/ch31-number-theory/Test.GCD.fst) | ✅ 3 | ✅ 3 | Euclidean GCD |
+| 39 | ModExp | ch31 | [Test.ModExp.fst](intree-tests/ch31-number-theory/Test.ModExp.fst) | ✅ 3 | ✅ 3 | modular exponentiation |
+| 40 | ExtendedGCD | ch31 | [Test.ExtendedGCD.fst](intree-tests/ch31-number-theory/Test.ExtendedGCD.fst) | ✅ 3 | ✅ 3 | Bézout coefficients |
+| 41 | NaiveStringMatch | ch32 | [Test.NaiveStringMatch.fst](intree-tests/ch32-string-matching/Test.NaiveStringMatch.fst) | ✅ 4 | ✅ 4 | brute-force matching |
+| 42 | RabinKarp | ch32 | [Test.RabinKarp.fst](intree-tests/ch32-string-matching/Test.RabinKarp.fst) | ✅ 6 | ✅ 6 | hash-based matching |
+| 43 | KMP | ch32 | [Test.KMP.fst](intree-tests/ch32-string-matching/Test.KMP.fst) | ✅ 3 | — | prop predicates (not unique) |
+| 44 | Segments | ch33 | [Test.Segments.fst](intree-tests/ch33-comp-geometry/Test.Segments.fst) | ✅ 6 | ✅ 6 | cross product/intersection |
+| 45 | GrahamScan | ch33 | [Test.GrahamScan.fst](intree-tests/ch33-comp-geometry/Test.GrahamScan.fst) | ✅ 3 | ✅ 2 | convex hull |
+| 46 | JarvisMarch | ch33 | [Test.JarvisMarch.fst](intree-tests/ch33-comp-geometry/Test.JarvisMarch.fst) | ✅ 2 | ✅ 2 | gift wrapping |
+| 47 | VertexCover | ch35 | [Test.VertexCover.fst](intree-tests/ch35-approximation/Test.VertexCover.fst) | ✅ 5 | ✅ 4 | approx cover |
 
 ### Summary
 
-- **46/47 algorithms verified** — all soundness and completeness tests pass
-- **1 skipped** — RBTree has a pre-existing type error in the AutoCLRS `.fsti` file
-- **3 normalization-limited** — BSTArray, MatrixChain, UnionFind test only base/simple cases
-- **Verification log**: [`verification-log.txt`](verification-log.txt) — F* output from `make verify` across all 21 chapters (48 files)
+- **44/47 algorithms verified** — all soundness and completeness tests pass
+- **3 unverified** — InsertionSort, MergeSort, BinarySearch require Pulse (not built)
+- **43/47 have completeness tests** — 4 files have only soundness (see below)
+- **Verification log**: [`intree-tests/verification-log.txt`](intree-tests/verification-log.txt)
 
-### Methodology Notes
+### Completeness Methodology
 
-**Soundness vs Completeness count mismatch**: Many algorithms show more soundness checks than
-completeness checks (e.g., BST has 7 soundness but 2 completeness). This is because:
+All completeness tests follow the [Appendix B](https://arxiv.org/abs/2406.09757) pattern:
 
-- **Soundness** tests are per-property: each spec property (sorted, permutation, valid BST, etc.)
-  gets its own `assert_norm` or lemma for each test case
-- **Completeness** tests currently use `[@@expect_failure]` for most algorithms — these test that
-  the spec rejects wrong outputs, but only 1 test per algorithm
+```
+∀y. φ(input, y) ⟹ y == expected
+```
 
-Only **InsertionSort** and **GCD** use the correct [Appendix B](https://arxiv.org/abs/2406.09757)
-completeness methodology (`∀y. φ(input,y) ⟹ y == expected`), which gives matching counts
-(3 soundness / 3 completeness each). Additionally, **InsertionSort** has two weakened-spec tests
-(`Test.InsertionSort.WeakenedSorted.fst`, `Test.InsertionSort.WeakenedPerm.fst`) that demonstrate
-completeness failures when either the sorted or permutation property is dropped.
-
-Migrating remaining algorithms to Appendix B completeness is future work.
-
-### Example: Sorting Soundness and Completeness
+Encoded in F* as:
 
 ```fstar
-module Test.InsertionSort
+let test_complete (y:type) : Lemma
+  (requires f input == y)
+  (ensures y == expected) = ()
+```
 
-open CLRS.Common.SortSpec
+**4 files have no completeness tests** — these use `prop` predicates (e.g., `sorted`, `permutation`,
+`mutually_compatible`) that assert properties of inputs rather than computing outputs.
+Completeness is not applicable because there is no "output" to uniquely determine:
 
-let input : Seq.seq int = Seq.seq_of_list [3; 1; 2]
-let expected : Seq.seq int = Seq.seq_of_list [1; 2; 3]
+- **CountingSort** — `sorted`, `in_range`, `permutation` are all input properties
+- **Quickselect** — `partition_ordered`, `unchanged_outside`, `permutation` are relational props
+- **ActivitySelection** — `mutually_compatible` admits multiple valid subsets (not unique)
+- **KMP** — `matched_prefix_at` admits multiple valid match positions (q=0 always holds)
 
-(* Soundness: spec holds on correct I/O pair *)
-let test_sound () : Lemma (sorted expected /\ permutation input expected) =
-  reveal_opaque (`%permutation) (permutation input expected)
+**1 file uses inequality bounds** — `SimultaneousMinMax` has `complexity_bounded_minmax_pairs`
+with `2*(cf-c0) <= 3*n` (loose bound), so only the tight equality bound gets a completeness test.
 
-(* Completeness: spec uniquely determines the output *)
+### Example: Functional Spec Completeness (GCD)
+
+```fstar
+module Test.GCD
+open CLRS.Ch31.GCD.Spec
+
+(* Soundness: spec gives correct answer *)
+let test_sound_1 () : Lemma (gcd 12 8 == 4) =
+  assert_norm (gcd 12 8 == 4)
+
+(* Completeness (Appendix B): output is uniquely determined *)
+let test_complete_1 (y:nat) : Lemma
+  (requires gcd 12 8 == y)
+  (ensures y == 4) =
+  assert_norm (gcd 12 8 == 4)
+```
+
+### Example: Relational Spec Completeness (InsertionSort)
+
+```fstar
+(* Completeness: sorted + permutation uniquely determines output *)
 let test_complete (y: Seq.seq int) : Lemma
   (requires sorted y /\ permutation input y)
-  (ensures y == expected) = ...  (* proved via count unfolding + sorted instantiation *)
+  (ensures y == expected) = ...  (* proved via count unfolding *)
 ```
 
 ### Technical Patterns

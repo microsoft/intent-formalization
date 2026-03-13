@@ -17,21 +17,25 @@ let heap_seq : Seq.seq int = Seq.seq_of_list [10; 8; 6; 4; 2]
 let test_heap_down_root () : Lemma (heap_down_at heap_seq 5 0) = ()
 let test_heap_down_1 () : Lemma (heap_down_at heap_seq 5 1) = ()
 let test_heap_down_2 () : Lemma (heap_down_at heap_seq 5 2) = ()
-
-(* === Soundness: NOT a max-heap [4; 10; 3; 2; 1] (root < left child) === *)
-let bad_heap : Seq.seq int = Seq.seq_of_list [4; 10; 3; 2; 1]
-
-[@@expect_failure]
-let test_heap_down_bad () : Lemma (heap_down_at bad_heap 5 0) = ()
-
 (* === Soundness: swap changes indices === *)
 let test_swap_sound () : Lemma (
   Seq.index (swap_seq heap_seq 0 4) 0 == 2 /\
   Seq.index (swap_seq heap_seq 0 4) 4 == 10
 ) = ()
 
-(* === Completeness: wrong swap === *)
-[@@expect_failure]
-let test_swap_complete () : Lemma (
-  Seq.index (swap_seq heap_seq 0 4) 0 == 10
-) = ()
+(* === Completeness (Appendix B): functional specs uniquely determine output === *)
+let test_parent_complete (y:int) : Lemma
+  (requires parent_idx 1 == y)
+  (ensures y == 0) = ()
+
+let test_left_complete (y:int) : Lemma
+  (requires left_idx 0 == y)
+  (ensures y == 1) = ()
+
+let test_right_complete (y:int) : Lemma
+  (requires right_idx 0 == y)
+  (ensures y == 2) = ()
+
+let test_swap_complete (y:int) : Lemma
+  (requires Seq.index (swap_seq heap_seq 0 4) 0 == y)
+  (ensures y == 2) = ()

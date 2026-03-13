@@ -17,12 +17,18 @@ let test_egcd_sound_2 () : Lemma (extended_gcd 35 15 == (| 5, 1, -2 |)) =
 let test_egcd_sound_3 () : Lemma (extended_gcd 7 0 == (| 7, 1, 0 |)) =
   assert_norm (extended_gcd 7 0 == (| 7, 1, 0 |))
 
-(* === Completeness: wrong gcd === *)
-[@@expect_failure]
-let test_egcd_complete_1 () : Lemma (extended_gcd 30 18 == (| 3, -1, 2 |)) =
-  assert_norm (extended_gcd 30 18 == (| 3, -1, 2 |))
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_egcd_complete_1 (d:nat) (x:int) (z:int) : Lemma
+  (requires extended_gcd 30 18 == (| d, x, z |))
+  (ensures d == 6 /\ x == -1 /\ z == 2) =
+  assert_norm (extended_gcd 30 18 == (| 6, -1, 2 |))
 
-(* === Completeness: wrong coefficients === *)
-[@@expect_failure]
-let test_egcd_complete_2 () : Lemma (extended_gcd 30 18 == (| 6, 1, -1 |)) =
-  assert_norm (extended_gcd 30 18 == (| 6, 1, -1 |))
+let test_egcd_complete_2 (d:nat) (x:int) (z:int) : Lemma
+  (requires extended_gcd 35 15 == (| d, x, z |))
+  (ensures d == 5 /\ x == 1 /\ z == -2) =
+  assert_norm (extended_gcd 35 15 == (| 5, 1, -2 |))
+
+let test_egcd_complete_3 (d:nat) (x:int) (z:int) : Lemma
+  (requires extended_gcd 7 0 == (| d, x, z |))
+  (ensures d == 7 /\ x == 1 /\ z == 0) =
+  assert_norm (extended_gcd 7 0 == (| 7, 1, 0 |))

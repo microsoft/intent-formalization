@@ -37,7 +37,24 @@ let cover_none : cover_fn = fun _ -> false
 let test_count_none () : Lemma (count_cover cover_none 3 == 0) =
   assert_norm (count_cover cover_none 3 == 0)
 
-(* === Completeness: wrong count fails === *)
-[@@expect_failure]
-let test_count_complete () : Lemma (count_cover cover_all 3 == 2) =
-  assert_norm (count_cover cover_all 3 == 2)
+
+(* === Completeness (Appendix B): spec uniquely determines output === *)
+let test_edges_count_complete (y:int) : Lemma
+  (requires List.Tot.length edges == y)
+  (ensures y == 3) =
+  assert_norm (List.Tot.length edges == 3)
+
+let test_count_complete (y:int) : Lemma
+  (requires count_cover cover_all 3 == y)
+  (ensures y == 3) =
+  assert_norm (count_cover cover_all 3 == 3)
+
+let test_count_0_complete (y:int) : Lemma
+  (requires count_cover cover_all 0 == y)
+  (ensures y == 0) =
+  assert_norm (count_cover cover_all 0 == 0)
+
+let test_count_none_complete (y:int) : Lemma
+  (requires count_cover cover_none 3 == y)
+  (ensures y == 0) =
+  assert_norm (count_cover cover_none 3 == 0)
