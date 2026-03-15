@@ -22,9 +22,13 @@ let completeness_huffman_cost (ft: HSpec.htree) (freq_seq: Seq.seq int) : Lemma
             Seq.index freq_seq 1 == 2 /\
             HSpec.cost ft == HOpt.greedy_cost (seq_to_pos_list freq_seq 0))
   (ensures HSpec.cost ft == 3)
-= assert_norm (seq_to_pos_list freq_seq 0 == [1; 2]);
+= assert (seq_to_pos_list freq_seq 2 == []);
+  assert (seq_to_pos_list freq_seq 1 == [2]);
+  assert (seq_to_pos_list freq_seq 0 == [1; 2]);
+  assert (HSpec.cost ft == HOpt.greedy_cost [1; 2]);
   HOpt.greedy_cost_sorted_unfold [1; 2];
   HOpt.greedy_cost_singleton 3;
+  assert (HOpt.greedy_cost [1; 2] == 3);
   assert (HSpec.cost ft == 3)
 #pop-options
 

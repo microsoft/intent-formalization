@@ -27,7 +27,7 @@ let completeness_search_42 (s: Seq.seq int) (result: SZ.t) : Lemma
             SZ.v result <= 5 /\
             (SZ.v result == 5 ==> ~(key_in_table s 5 42)))
   (ensures SZ.v result < 5)
-= admit()
+= assert (SZ.v result < 5)
 #pop-options
 
 fn test_hash_table ()

@@ -6,9 +6,12 @@ open Pulse.Lib.Array
 open FStar.SizeT
 open FStar.Mul
 open CLRS.Ch16.ActivitySelection.Impl
+open CLRS.Ch16.ActivitySelection.Spec
 
 module A = Pulse.Lib.Array
+module AL = CLRS.Ch16.ActivitySelection.Lemmas
 module GR = Pulse.Lib.GhostReference
+module LT = FStar.List.Tot
 module SZ = FStar.SizeT
 module Seq = FStar.Seq
 module V = Pulse.Lib.Vec
@@ -23,10 +26,15 @@ let activity_input_ok
     (requires Seq.length ss == 3 /\
               Seq.length sf == 3 /\
               Seq.length sout0 == 3 /\
+              A.length start_times == 3 /\
+              A.length finish_times == 3 /\
+              A.length out == 3 /\
               Seq.index ss 0 == 1 /\ Seq.index ss 1 == 1 /\ Seq.index ss 2 == 2 /\
               Seq.index sf 0 == 2 /\ Seq.index sf 1 == 3 /\ Seq.index sf 2 == 100)
     (ensures activity_selection_pre 3sz ss sf sout0 start_times finish_times out)
-= admit()
+= assert (activity_selection_pre 3sz ss sf sout0 start_times finish_times out)
+    by (FStar.Tactics.norm [delta_only [`%activity_selection_pre; `%AL.finish_sorted; `%AL.valid_activity]];
+        FStar.Tactics.smt ())
 
 let completeness_activity_selection
   (count: SZ.t)
@@ -40,7 +48,38 @@ let completeness_activity_selection
               Seq.index sf 0 == 2 /\ Seq.index sf 1 == 3 /\ Seq.index sf 2 == 100 /\
               activity_selection_post count 3sz sout cf c0 ss sf)
     (ensures SZ.v count == 2 /\ Seq.index sout 0 == 0sz /\ Seq.index sout 1 == 2sz)
-= admit()
+= let sel = FStar.IndefiniteDescription.indefinite_description_ghost
+      (Seq.seq nat)
+      (fun sel ->
+        Seq.length sel == SZ.v count /\
+        out_matches_sel sout sel (SZ.v count) 3 /\
+        AL.all_valid_indices sel 3 /\
+        AL.strictly_increasing sel /\
+        AL.pairwise_compatible sel ss sf /\
+        Seq.index sel 0 == 0 /\
+        AL.earliest_compatible sel ss sf 3 3 /\
+        SZ.v count == max_compatible_count ss sf 3)
+  in
+  reveal_opaque (`%max_compatible_count) (max_compatible_count ss sf 3);
+  let witness : list nat = [0; 2] in
+  assert (LT.length witness == 2);
+  assert (mutually_compatible ss sf witness);
+  assert (list_sorted_indices witness 3);
+  find_max_compatible_lower_bound ss sf 3 3 2 witness;
+  assert (max_compatible_count ss sf 3 >= 2);
+  assert (Seq.length sel >= 2);
+  assert (Seq.index sel 1 == 2);
+  if Seq.length sel >= 3 then begin
+    assert (Seq.index sel 2 < 3);
+    assert (Seq.index sel 1 < Seq.index sel 2);
+    assert false
+  end;
+  assert (Seq.length sel == 2);
+  assert (SZ.v count == 2);
+  assert (SZ.v (Seq.index sout 0) == 0);
+  assert (SZ.v (Seq.index sout 1) == 2);
+  assert (Seq.index sout 0 == 0sz);
+  assert (Seq.index sout 1 == 2sz)
 #pop-options
 
 fn test_activity_selection ()
@@ -76,6 +115,7 @@ fn test_activity_selection ()
 
   with ss0 sf0 sout0.
     assert (A.pts_to start ss0 ** A.pts_to finish sf0 ** A.pts_to out sout0);
+  assert (pure (A.length start == 3 /\ A.length finish == 3 /\ A.length out == 3));
   activity_input_ok ss0 sf0 sout0 start finish out;
 
   let count = activity_selection start finish out 3sz ctr;

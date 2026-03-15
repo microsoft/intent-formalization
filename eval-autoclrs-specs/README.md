@@ -39,7 +39,7 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 
 **48 tests total — 41 call Pulse implementation functions, 7 are pure spec tests (no Impl module exists)**
 
-**39 completeness proofs discharged ✅, 9 remaining with admit().**
+**40 completeness proofs discharged ✅, 8 remaining with admit().**
 
 ### Sorting (ch02, ch06, ch07, ch08)
 
@@ -90,7 +90,7 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 
 | # | Algorithm | Ch | Impl Function | Test File | Proof |
 |---|-----------|-----|---------------|-----------|-------|
-| 26 | ActivitySelection | ch16 | `activity_selection` | [Test.ActivitySelection.fst](intree-tests/ch16-greedy/Test.ActivitySelection.fst) | admit |
+| 26 | ActivitySelection | ch16 | `activity_selection` | [Test.ActivitySelection.fst](intree-tests/ch16-greedy/Test.ActivitySelection.fst) | ✅ |
 | 27 | Huffman | ch16 | `huffman_tree` | [Test.Huffman.fst](intree-tests/ch16-greedy/Test.Huffman.fst) | ✅ |
 
 ### Union-Find & Graphs (ch21, ch22)
