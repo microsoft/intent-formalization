@@ -41,6 +41,8 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 
 **43 completeness proofs discharged ✅, 5 spec incomplete ❌.**
 
+**5 non-determinism tests ❌ᴺ** — algorithms where the spec *is* complete for the original test input (unique output) but *not* for an alternative input where multiple valid outputs exist. These demonstrate that completeness can be **input-dependent** when the postcondition is relational rather than functional.
+
 ### Sorting (ch02, ch06, ch07, ch08)
 
 | # | Algorithm | Ch | Impl Function | Test File | Proof |
@@ -58,7 +60,8 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 | # | Algorithm | Ch | Impl Function | Test File | Proof |
 |---|-----------|-----|---------------|-----------|-------|
 | 8 | BinarySearch | ch04 | [`binary_search`](autoclrs/autoclrs/ch04-divide-conquer/CLRS.Ch04.BinarySearch.Impl.fsti) | [Test.BinarySearch.fst](intree-tests/ch04-divide-conquer/Test.BinarySearch.fst) | ✅ |
-| 9 | MaxSubarray | ch04 | *(spec only)* | [Test.MaxSubarray.fst](intree-tests/ch04-divide-conquer/Test.MaxSubarray.fst) | ✅ |
+| | ↳ *non-det* | | input `[1,3,3,5]` key=3: index 1 *and* 2 valid | [Test.BinarySearch2.fst](intree-tests/ch04-divide-conquer/Test.BinarySearch2.fst) | ❌ᴺ |
+| 9 | MaxSubarray | ch04 |*(spec only)* | [Test.MaxSubarray.fst](intree-tests/ch04-divide-conquer/Test.MaxSubarray.fst) | ✅ |
 | 10 | MatrixMultiply | ch04 | [`matrix_multiply`](autoclrs/autoclrs/ch04-divide-conquer/CLRS.Ch04.MatrixMultiply.Impl.fsti) | [Test.MatrixMultiply.fst](intree-tests/ch04-divide-conquer/Test.MatrixMultiply.fst) | ✅ |
 | 11 | MinMax | ch09 | [`find_minimum`](autoclrs/autoclrs/ch09-order-statistics/CLRS.Ch09.MinMax.Impl.fsti) | [Test.MinMax.fst](intree-tests/ch09-order-statistics/Test.MinMax.fst) | ✅ |
 | 12 | PartialSelectionSort | ch09 | [`select`](autoclrs/autoclrs/ch09-order-statistics/CLRS.Ch09.PartialSelectionSort.Impl.fsti) | [Test.PartialSelectionSort.fst](intree-tests/ch09-order-statistics/Test.PartialSelectionSort.fst) | ✅ |
@@ -91,7 +94,8 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 | # | Algorithm | Ch | Impl Function | Test File | Proof |
 |---|-----------|-----|---------------|-----------|-------|
 | 26 | ActivitySelection | ch16 | [`activity_selection`](autoclrs/autoclrs/ch16-greedy/CLRS.Ch16.ActivitySelection.Impl.fsti) | [Test.ActivitySelection.fst](intree-tests/ch16-greedy/Test.ActivitySelection.fst) | ✅ |
-| 27 | Huffman | ch16 | [`huffman_tree`](autoclrs/autoclrs/ch16-greedy/CLRS.Ch16.Huffman.Impl.fsti) | [Test.Huffman.fst](intree-tests/ch16-greedy/Test.Huffman.fst) | ✅ |
+| | ↳ *non-det* | | activities (1,2),(2,3),(2,3): either activity 1 or 2 valid | [Test.ActivitySelection2.fst](intree-tests/ch16-greedy/Test.ActivitySelection2.fst) | ❌ᴺ |
+| 27 | Huffman |ch16 | [`huffman_tree`](autoclrs/autoclrs/ch16-greedy/CLRS.Ch16.Huffman.Impl.fsti) | [Test.Huffman.fst](intree-tests/ch16-greedy/Test.Huffman.fst) | ✅ |
 
 ### Union-Find & Graphs (ch21, ch22)
 
@@ -100,7 +104,9 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 | 28 | UnionFind | ch21 | [`make_set`, `union`, `find_set`](autoclrs/autoclrs/ch21-disjoint-sets/CLRS.Ch21.UnionFind.Impl.fsti) | [Test.UnionFind.fst](intree-tests/ch21-disjoint-sets/Test.UnionFind.fst) | ✅ |
 | 29 | BFS | ch22 | [`queue_bfs`](autoclrs/autoclrs/ch22-elementary-graph/CLRS.Ch22.BFS.Impl.fsti) | [Test.BFS.fst](intree-tests/ch22-elementary-graph/Test.BFS.fst) | ✅ |
 | 30 | DFS | ch22 | [`stack_dfs`](autoclrs/autoclrs/ch22-elementary-graph/CLRS.Ch22.DFS.Impl.fsti) | [Test.DFS.fst](intree-tests/ch22-elementary-graph/Test.DFS.fst) | ✅ |
+| | ↳ *non-det* | | fork graph 0→1,0→2: d[1]=2 or d[1]=4 depending on visit order | [Test.DFS2.fst](intree-tests/ch22-elementary-graph/Test.DFS2.fst) | ❌ᴺ |
 | 31 | TopologicalSort | ch22 | [`topological_sort`](autoclrs/autoclrs/ch22-elementary-graph/CLRS.Ch22.TopologicalSort.Impl.fsti) | [Test.TopologicalSort.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort.fst) | ✅ |
+| | ↳ *non-det* | | fork graph 0→1,0→2: [0,1,2] *and* [0,2,1] both valid | [Test.TopologicalSort2.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort2.fst) | ❌ᴺ |
 
 ### MST & Shortest Paths (ch23, ch24, ch25, ch26)
 
@@ -110,7 +116,8 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 | 33 | Prim | ch23 | [`prim`](autoclrs/autoclrs/ch23-mst/CLRS.Ch23.Prim.Impl.fsti) | [Test.Prim.fst](intree-tests/ch23-mst/Test.Prim.fst) | ❌ |
 | 34 | BellmanFord | ch24 | [`bellman_ford`](autoclrs/autoclrs/ch24-sssp/CLRS.Ch24.BellmanFord.Impl.fsti) | [Test.BellmanFord.fst](intree-tests/ch24-sssp/Test.BellmanFord.fst) | ❌ |
 | 35 | Dijkstra | ch24 | [`dijkstra`](autoclrs/autoclrs/ch24-sssp/CLRS.Ch24.Dijkstra.Impl.fsti) | [Test.Dijkstra.fst](intree-tests/ch24-sssp/Test.Dijkstra.fst) | ✅ |
-| 36 | FloydWarshall | ch25 | [`floyd_warshall`](autoclrs/autoclrs/ch25-apsp/CLRS.Ch25.FloydWarshall.Impl.fsti) | [Test.FloydWarshall.fst](intree-tests/ch25-apsp/Test.FloydWarshall.fst) | ✅ |
+| | ↳ *non-det* | | diamond 0→1→3, 0→2→3 (equal weight): pred[3]=1 *or* 2 | [Test.Dijkstra2.fst](intree-tests/ch24-sssp/Test.Dijkstra2.fst) | ❌ᴺ |
+| 36 | FloydWarshall |ch25 | [`floyd_warshall`](autoclrs/autoclrs/ch25-apsp/CLRS.Ch25.FloydWarshall.Impl.fsti) | [Test.FloydWarshall.fst](intree-tests/ch25-apsp/Test.FloydWarshall.fst) | ✅ |
 | 37 | MaxFlow | ch26 | [`max_flow`](autoclrs/autoclrs/ch26-max-flow/CLRS.Ch26.MaxFlow.Impl.fsti) | [Test.MaxFlow.fst](intree-tests/ch26-max-flow/Test.MaxFlow.fst) | ✅ |
 
 ### Number Theory (ch31)
@@ -148,7 +155,7 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 
 - **Impl Function**: the Pulse implementation function called in the test (from `*.Impl` module). Links to the `.fsti` in the AutoCLRS submodule.
 - *(spec only)*: no `Impl` module exists in AutoCLRS; test uses pure F\* spec functions
-- **Proof**: ✅ = completeness proved, ❌ = spec incomplete (postcondition too weak to determine output)
+- **Proof**: ✅ = completeness proved, ❌ = spec incomplete (postcondition too weak to determine output), ❌ᴺ = non-determinism (spec complete for original input, incomplete for alternative input with multiple valid outputs)
 
 ### Completeness Failures (❌)
 
@@ -162,76 +169,78 @@ These 5 algorithms have postconditions that are **too weak to uniquely determine
 | BellmanFord | postcondition allows `ok=false` (negative cycle detected), but this graph has no negative cycles — spec doesn't expose this |
 | VertexCover | `is_cover` + 2-approx bound satisfied by `[1,0]` as well as `[1,1]` — spec doesn't force both endpoints |
 
-### Example: Quicksort Completeness Test
+### Input-Dependent Completeness (❌ᴺ)
 
-The `quicksort` implementation has the postcondition:
+These 5 algorithms have specs that **are** complete for the original test input (where the output is uniquely determined) but **fail** for an alternative input where multiple valid outputs exist. This demonstrates that completeness is **input-dependent** for relational (non-functional) postconditions:
+
+| Algorithm | Original Input (✅ unique) | Alternative Input (❌ᴺ non-unique) |
+|-----------|---------------------------|--------------------------------------|
+| BinarySearch | `[1,2,3,4,5]` key=3 → index 2 (unique) | `[1,3,3,5]` key=3 → index 1 *or* 2 |
+| DFS | chain 0→1→2 → timestamps unique | fork 0→1,0→2 → d[1]=2 or d[1]=4 |
+| TopologicalSort | chain 0→1→2 → only [0,1,2] | fork 0→1,0→2 → [0,1,2] or [0,2,1] |
+| Dijkstra | unique shortest paths → pred unique | diamond 0→{1,2}→3 equal weight → pred[3]=1 or 2 |
+| ActivitySelection | distinct finish times → unique greedy set | tied finish times (2,3),(2,3) → activity 1 or 2 |
+
+### Example: Topological Sort — Complete vs Incomplete
+
+The [`topological_sort`](autoclrs/autoclrs/ch22-elementary-graph/CLRS.Ch22.TopologicalSort.Impl.fsti) implementation has the postcondition:
 ```
-ensures exists* s. (A.pts_to a s ** pure (sorted s /\ permutation s0 s))
+ensures exists* sout. (V.pts_to output sout ** pure (
+  all_distinct (seq_int_to_nat sout) /\
+  is_topological_order adj n (seq_int_to_nat sout)))
 ```
-i.e., the output is **sorted** and a **permutation** of the input.
+i.e., the output is a **permutation of all vertices** in a valid **topological order**.
 
-The completeness test:
-1. Creates input array `[3, 1, 2]`
-2. Calls `quicksort arr 3sz` (the Pulse implementation)
-3. Proves the output must be `[1, 2, 3]` via a completeness lemma
-4. Reads each element and asserts `v0 == 1`, `v1 == 2`, `v2 == 3`
+#### ✅ Complete: chain graph 0→1→2
 
-The completeness lemma works by:
-- Revealing the opaque `permutation` predicate to expose `FStar.Seq.Properties.permutation`
-- Using `count`-based reasoning: since `[3,1,2]` has exactly one copy of each element, any sorted permutation must be `[1,2,3]`
-- Bridging `BoundedIntegers` typeclass operators (`<=`) to standard `Prims.op_LessThanOrEqual` for Z3
+With edges 0→1 and 1→2, there is exactly **one** valid topological order: `[0, 1, 2]`.
 
 ```fstar
-(* Pure helper: sorted + permutation of [3;1;2] uniquely determines [1;2;3] *)
-let std_sort3 (s: Seq.seq int)
-  : Lemma
-    (requires (forall (i j:nat). Prims.op_LessThanOrEqual i j /\
-                                 Prims.op_LessThan j (Seq.length s) ==>
-                                 Prims.op_LessThanOrEqual (Seq.index s i) (Seq.index s j)) /\
-              SP.permutation int (Seq.seq_of_list [3; 1; 2]) s)
-    (ensures Seq.index s 0 == 1 /\ Seq.index s 1 == 2 /\ Seq.index s 2 == 3)
-= SP.perm_len (Seq.seq_of_list [3; 1; 2]) s;
-  assert_norm (SP.count 1 (Seq.seq_of_list [3; 1; 2]) == 1);
-  assert_norm (SP.count 2 (Seq.seq_of_list [3; 1; 2]) == 1);
-  assert_norm (SP.count 3 (Seq.seq_of_list [3; 1; 2]) == 1);
-  assert_norm (SP.count 0 (Seq.seq_of_list [3; 1; 2]) == 0);
-  assert_norm (SP.count 4 (Seq.seq_of_list [3; 1; 2]) == 0)
-
-(* Bridges BoundedIntegers typeclass operators to Prims operators *)
-let completeness_sort3 (s: Seq.seq int)
-  : Lemma
-    (requires SS.sorted s /\ SP.permutation int (Seq.seq_of_list [3; 1; 2]) s)
-    (ensures Seq.index s 0 == 1 /\ Seq.index s 1 == 2 /\ Seq.index s 2 == 3)
-= assert (forall (i j:nat). (i <= j) == Prims.op_LessThanOrEqual i j);
-  assert (forall (x y:int). (x <= y) == Prims.op_LessThanOrEqual x y);
-  std_sort3 s
+(* The spec uniquely determines the output for this graph *)
+let completeness_topo (sout adj: Seq.seq int) : Lemma
+  (requires (* adj encodes edges 0→1, 1→2 *) /\
+    all_distinct (seq_int_to_nat sout) /\
+    is_topological_order adj 3 (seq_int_to_nat sout))
+  (ensures Seq.index sout 0 == 0 /\ Seq.index sout 1 == 1 /\ Seq.index sout 2 == 2)
+= assert (has_edge 3 adj 0 1 == true);
+  assert (has_edge 3 adj 1 2 == true)
+  (* Z3 derives: 0 must precede 1, 1 must precede 2 → only [0,1,2] works *)
 ```
 
-The Pulse test then calls the implementation and uses the lemma:
+The Pulse test calls the implementation and uses the lemma:
 ```pulse
-fn test_quicksort_3 ()
-  requires emp
-  ensures emp
+fn test_topological_sort () requires emp ensures emp
 {
-  // Setup input [3; 1; 2]
-  ...
-  arr.(0sz) <- 3; arr.(1sz) <- 1; arr.(2sz) <- 2;
-
-  // y = quicksort(x)
-  quicksort arr 3sz;
-
-  // assert(y == expected)
-  with s. assert (A.pts_to arr s);
-  reveal_opaque (`%SS.permutation) (SS.permutation s0 s);
-  completeness_sort3 s;
-
-  let v0 = arr.(0sz); let v1 = arr.(1sz); let v2 = arr.(2sz);
-  assert (pure (v0 == 1));  // ✅ F* proves output[0] == 1
-  assert (pure (v1 == 2));  // ✅ F* proves output[1] == 2
-  assert (pure (v2 == 3));  // ✅ F* proves output[2] == 3
-  ...
+  (* ... setup adj for 0→1→2 ... *)
+  let output = topological_sort adj 3sz ctr;
+  with sout. assert (V.pts_to output sout);
+  completeness_topo sout s0;                  // ✅ proved!
+  (* ... read output[0]==0, output[1]==1, output[2]==2 ... *)
 }
 ```
+
+**F\* verifies this** — the postcondition is strong enough to prove the output.
+
+#### ❌ Incomplete: fork graph 0→1, 0→2
+
+With edges 0→1 and 0→2 (no edge between 1 and 2), **two** valid topological orders exist: `[0, 1, 2]` and `[0, 2, 1]`.
+
+```fstar
+(* This lemma CANNOT be proved — the spec admits two valid outputs *)
+let completeness_topo_v2 (sout adj: Seq.seq int) : Lemma
+  (requires (* adj encodes edges 0→1, 0→2 *) /\
+    all_distinct (seq_int_to_nat sout) /\
+    is_topological_order adj 3 (seq_int_to_nat sout))
+  (ensures Seq.index sout 0 == 0 /\ Seq.index sout 1 == 1 /\ Seq.index sout 2 == 2)
+= admit()  (* ❌ unprovable — [0,2,1] also satisfies the postcondition *)
+```
+
+**F\* rejects this** — the postcondition is too weak to distinguish between the two valid orderings.
+This is exactly the kind of spec incompleteness the evaluation is designed to detect.
+
+Both tests are in the repository:
+- [Test.TopologicalSort.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort.fst) — ✅ chain graph (complete)
+- [Test.TopologicalSort2.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort2.fst) — ❌ fork graph (incomplete)
 
 ## Reproducing the Verification
 
