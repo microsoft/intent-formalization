@@ -41,7 +41,7 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 
 **43 completeness proofs discharged ✅, 5 spec incomplete ❌.**
 
-**38 second completeness examples ✅** — verifying that completeness holds for a different input to the same algorithm. 5 algorithms have ❌ first examples (no 2nd example), and 5 graph algorithms (DFS, TopologicalSort, Dijkstra, FloydWarshall, MaxFlow) have complex proofs pending.
+**43 second completeness examples ✅** — verifying that completeness holds for a different input to the same algorithm. 5 algorithms with ❌ first examples have no 2nd example (spec too weak for any input).
 
 **5 non-determinism tests ❌ᴺ** — algorithms where the spec *is* complete for the original test input (unique output) but *not* for an alternative input where multiple valid outputs exist. These demonstrate that completeness can be **input-dependent** when the postcondition is relational rather than functional.
 
@@ -105,9 +105,9 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 |---|-----------|-----|---------------|-----------|-------|-------------|
 | 28 | UnionFind | ch21 | [`make_set`, `union`, `find_set`](autoclrs/autoclrs/ch21-disjoint-sets/CLRS.Ch21.UnionFind.Impl.fsti) | [Test.UnionFind.fst](intree-tests/ch21-disjoint-sets/Test.UnionFind.fst) | ✅ | [Test.UnionFind2.fst](intree-tests/ch21-disjoint-sets/Test.UnionFind2.fst) ✅ |
 | 29 | BFS | ch22 | [`queue_bfs`](autoclrs/autoclrs/ch22-elementary-graph/CLRS.Ch22.BFS.Impl.fsti) | [Test.BFS.fst](intree-tests/ch22-elementary-graph/Test.BFS.fst) | ✅ | [Test.BFS2.fst](intree-tests/ch22-elementary-graph/Test.BFS2.fst) ✅ |
-| 30 | DFS | ch22 | [`stack_dfs`](autoclrs/autoclrs/ch22-elementary-graph/CLRS.Ch22.DFS.Impl.fsti) | [Test.DFS.fst](intree-tests/ch22-elementary-graph/Test.DFS.fst) | ✅ | |
+| 30 | DFS | ch22 | [`stack_dfs`](autoclrs/autoclrs/ch22-elementary-graph/CLRS.Ch22.DFS.Impl.fsti) | [Test.DFS.fst](intree-tests/ch22-elementary-graph/Test.DFS.fst) | ✅ | [Test.DFS3.fst](intree-tests/ch22-elementary-graph/Test.DFS3.fst) ✅ |
 | | ↳ *non-det* | | fork graph 0→1,0→2: d[1]=2 or d[1]=4 depending on visit order | [Test.DFS2.fst](intree-tests/ch22-elementary-graph/Test.DFS2.fst) | ❌ᴺ | |
-| 31 | TopologicalSort | ch22 | [`topological_sort`](autoclrs/autoclrs/ch22-elementary-graph/CLRS.Ch22.TopologicalSort.Impl.fsti) | [Test.TopologicalSort.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort.fst) | ✅ | |
+| 31 | TopologicalSort | ch22 | [`topological_sort`](autoclrs/autoclrs/ch22-elementary-graph/CLRS.Ch22.TopologicalSort.Impl.fsti) | [Test.TopologicalSort.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort.fst) | ✅ | [Test.TopologicalSort3.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort3.fst) ✅ |
 | | ↳ *non-det* | | fork graph 0→1,0→2: [0,1,2] *and* [0,2,1] both valid | [Test.TopologicalSort2.fst](intree-tests/ch22-elementary-graph/Test.TopologicalSort2.fst) | ❌ᴺ | |
 
 ### MST & Shortest Paths (ch23, ch24, ch25, ch26)
@@ -117,10 +117,10 @@ pinned to commit [`1984af1`](https://github.com/FStarLang/AutoCLRS/tree/1984af1a
 | 32 | Kruskal | ch23 | [`kruskal`](autoclrs/autoclrs/ch23-mst/CLRS.Ch23.Kruskal.Impl.fsti) | [Test.Kruskal.fst](intree-tests/ch23-mst/Test.Kruskal.fst) | ❌ | — |
 | 33 | Prim | ch23 | [`prim`](autoclrs/autoclrs/ch23-mst/CLRS.Ch23.Prim.Impl.fsti) | [Test.Prim.fst](intree-tests/ch23-mst/Test.Prim.fst) | ❌ | — |
 | 34 | BellmanFord | ch24 | [`bellman_ford`](autoclrs/autoclrs/ch24-sssp/CLRS.Ch24.BellmanFord.Impl.fsti) | [Test.BellmanFord.fst](intree-tests/ch24-sssp/Test.BellmanFord.fst) | ❌ | — |
-| 35 | Dijkstra | ch24 | [`dijkstra`](autoclrs/autoclrs/ch24-sssp/CLRS.Ch24.Dijkstra.Impl.fsti) | [Test.Dijkstra.fst](intree-tests/ch24-sssp/Test.Dijkstra.fst) | ✅ | |
+| 35 | Dijkstra | ch24 | [`dijkstra`](autoclrs/autoclrs/ch24-sssp/CLRS.Ch24.Dijkstra.Impl.fsti) | [Test.Dijkstra.fst](intree-tests/ch24-sssp/Test.Dijkstra.fst) | ✅ | [Test.Dijkstra3.fst](intree-tests/ch24-sssp/Test.Dijkstra3.fst) ✅ |
 | | ↳ *non-det* | | diamond 0→1→3, 0→2→3 (equal weight): pred[3]=1 *or* 2 | [Test.Dijkstra2.fst](intree-tests/ch24-sssp/Test.Dijkstra2.fst) | ❌ᴺ | |
-| 36 | FloydWarshall | ch25 | [`floyd_warshall`](autoclrs/autoclrs/ch25-apsp/CLRS.Ch25.FloydWarshall.Impl.fsti) | [Test.FloydWarshall.fst](intree-tests/ch25-apsp/Test.FloydWarshall.fst) | ✅ | |
-| 37 | MaxFlow | ch26 | [`max_flow`](autoclrs/autoclrs/ch26-max-flow/CLRS.Ch26.MaxFlow.Impl.fsti) | [Test.MaxFlow.fst](intree-tests/ch26-max-flow/Test.MaxFlow.fst) | ✅ | |
+| 36 | FloydWarshall | ch25 | [`floyd_warshall`](autoclrs/autoclrs/ch25-apsp/CLRS.Ch25.FloydWarshall.Impl.fsti) | [Test.FloydWarshall.fst](intree-tests/ch25-apsp/Test.FloydWarshall.fst) | ✅ | [Test.FloydWarshall2.fst](intree-tests/ch25-apsp/Test.FloydWarshall2.fst) ✅ |
+| 37 | MaxFlow | ch26 | [`max_flow`](autoclrs/autoclrs/ch26-max-flow/CLRS.Ch26.MaxFlow.Impl.fsti) | [Test.MaxFlow.fst](intree-tests/ch26-max-flow/Test.MaxFlow.fst) | ✅ | [Test.MaxFlow2.fst](intree-tests/ch26-max-flow/Test.MaxFlow2.fst) ✅ |
 
 ### Number Theory (ch31)
 
