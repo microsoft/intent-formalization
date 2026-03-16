@@ -1,0 +1,139 @@
+F* Verification Log
+Generated: 2026-03-13T00:04:27Z
+
+=== ch02-getting-started ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch02-getting-started
+   CHECK           Test.InsertionSort.WeakenedPerm.fst
+   CHECK           Test.InsertionSort.WeakenedSorted.fst
+   CHECK           Test.InsertionSort.fst
+   CHECK           Test.MergeSort.fst
+Result: PASS (4 files)
+
+=== ch04-divide-conquer ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch04-divide-conquer
+   CHECK           Test.MaxSubarray.fst
+   CHECK           Test.BinarySearch.fst
+   CHECK           Test.MatrixMultiply.fst
+Result: PASS (3 files)
+
+=== ch06-heapsort ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch06-heapsort
+   CHECK           Test.Heap.fst
+Result: PASS (1 files)
+
+=== ch07-quicksort ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch07-quicksort
+   CHECK           Test.Quicksort.fst
+Result: PASS (1 files)
+
+=== ch08-linear-sorting ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch08-linear-sorting
+   CHECK           Test.BucketSort.fst
+   CHECK           Test.RadixSort.fst
+   CHECK           Test.CountingSort.fst
+Result: PASS (3 files)
+
+=== ch09-order-statistics ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch09-order-statistics
+   CHECK           Test.PartialSelectionSort.fst
+   CHECK           Test.Quickselect.fst
+   CHECK           Test.SimultaneousMinMax.fst
+   CHECK           Test.MinMax.fst
+Result: PASS (4 files)
+
+=== ch10-elementary-ds ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch10-elementary-ds
+   CHECK           Test.SLL.fst
+   CHECK           Test.Stack.fst
+   CHECK           Test.DLL.fst
+   CHECK           Test.Queue.fst
+Result: PASS (4 files)
+
+=== ch11-hash-tables ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch11-hash-tables
+   CHECK           Test.HashTable.fst
+Result: PASS (1 files)
+
+=== ch12-bst ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch12-bst
+   CHECK           Test.BST.fst
+   CHECK           Test.BSTArray.fst
+Result: PASS (2 files)
+
+=== ch15-dynamic-programming ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch15-dynamic-programming
+   CHECK           Test.LCS.fst
+   CHECK           Test.MatrixChain.fst
+   CHECK           Test.RodCutting.fst
+Result: PASS (3 files)
+
+=== ch16-greedy ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch16-greedy
+   CHECK           Test.ActivitySelection.fst
+   CHECK           Test.Huffman.fst
+Result: PASS (2 files)
+
+=== ch21-disjoint-sets ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch21-disjoint-sets
+   CHECK           Test.UnionFind.fst
+Result: PASS (1 files)
+
+=== ch22-elementary-graph ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch22-elementary-graph
+   CHECK           Test.BFS.fst
+   CHECK           Test.DFS.fst
+   CHECK           Test.TopologicalSort.fst
+Result: PASS (3 files)
+
+=== ch23-mst ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch23-mst
+   CHECK           Test.Prim.fst
+   CHECK           Test.Kruskal.fst
+Result: PASS (2 files)
+
+=== ch24-sssp ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch24-sssp
+   CHECK           Test.BellmanFord.fst
+   CHECK           Test.Dijkstra.fst
+Result: PASS (2 files)
+
+=== ch25-apsp ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch25-apsp
+   CHECK           Test.FloydWarshall.fst
+Result: PASS (1 files)
+
+=== ch26-max-flow ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch26-max-flow
+   CHECK           Test.MaxFlow.fst
+Result: PASS (1 files)
+
+=== ch31-number-theory ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch31-number-theory
+   CHECK           Test.ExtendedGCD.fst
+   CHECK           Test.GCD.fst
+   CHECK           Test.ModExp.fst
+Result: PASS (3 files)
+
+=== ch32-string-matching ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch32-string-matching
+   CHECK           Test.NaiveStringMatch.fst
+   CHECK           Test.RabinKarp.fst
+   CHECK           Test.KMP.fst
+Result: PASS (3 files)
+
+=== ch33-comp-geometry ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch33-comp-geometry
+   CHECK           Test.Segments.fst
+   CHECK           Test.GrahamScan.fst
+   CHECK           Test.JarvisMarch.fst
+Result: PASS (3 files)
+
+=== ch35-approximation ===
+   DEPEND          /root/AutoCLRS/autoclrs/ch35-approximation
+   CHECK           Test.VertexCover.fst
+Result: PASS (1 files)
+
+=== SUMMARY ===
+Chapters passed: 21/21
+Total files verified: 48
+=== VERIFICATION COMPLETE ===

@@ -1,0 +1,54 @@
+=== F* Verification Log ===
+Date: Fri Mar 13 03:56:20 UTC 2026
+F* version: F* 2025.12.15~dev
+Z3 version: Z3 version 4.13.3 - 64 bit
+
+SKIP: ch02-getting-started/Test.InsertionSort.fst (Requires Pulse)
+SKIP: ch02-getting-started/Test.MergeSort.fst (Requires Pulse)
+SKIP: ch04-divide-conquer/Test.BinarySearch.fst (Requires Pulse (imperative))
+PASS: ch04-divide-conquer/Test.MatrixMultiply.fst
+PASS: ch04-divide-conquer/Test.MaxSubarray.fst
+PASS: ch06-heapsort/Test.Heap.fst
+PASS: ch07-quicksort/Test.Quicksort.fst
+PASS: ch08-linear-sorting/Test.BucketSort.fst
+PASS: ch08-linear-sorting/Test.CountingSort.fst
+PASS: ch08-linear-sorting/Test.RadixSort.fst
+PASS: ch09-order-statistics/Test.MinMax.fst
+PASS: ch09-order-statistics/Test.PartialSelectionSort.fst
+PASS: ch09-order-statistics/Test.Quickselect.fst
+PASS: ch09-order-statistics/Test.SimultaneousMinMax.fst
+PASS: ch10-elementary-ds/Test.DLL.fst
+PASS: ch10-elementary-ds/Test.Queue.fst
+PASS: ch10-elementary-ds/Test.SLL.fst
+PASS: ch10-elementary-ds/Test.Stack.fst
+PASS: ch11-hash-tables/Test.HashTable.fst
+PASS: ch12-bst/Test.BST.fst
+PASS: ch12-bst/Test.BSTArray.fst
+PASS: ch13-rbtree/Test.RBTree.fst
+PASS: ch15-dynamic-programming/Test.LCS.fst
+PASS: ch15-dynamic-programming/Test.MatrixChain.fst
+PASS: ch15-dynamic-programming/Test.RodCutting.fst
+PASS: ch16-greedy/Test.ActivitySelection.fst
+PASS: ch16-greedy/Test.Huffman.fst
+PASS: ch21-disjoint-sets/Test.UnionFind.fst
+PASS: ch22-elementary-graph/Test.BFS.fst
+PASS: ch22-elementary-graph/Test.DFS.fst
+PASS: ch22-elementary-graph/Test.TopologicalSort.fst
+PASS: ch23-mst/Test.Kruskal.fst
+PASS: ch23-mst/Test.Prim.fst
+PASS: ch24-sssp/Test.BellmanFord.fst
+PASS: ch24-sssp/Test.Dijkstra.fst
+PASS: ch25-apsp/Test.FloydWarshall.fst
+PASS: ch26-max-flow/Test.MaxFlow.fst
+PASS: ch31-number-theory/Test.ExtendedGCD.fst
+PASS: ch31-number-theory/Test.GCD.fst
+PASS: ch31-number-theory/Test.ModExp.fst
+PASS: ch32-string-matching/Test.KMP.fst
+PASS: ch32-string-matching/Test.NaiveStringMatch.fst
+PASS: ch32-string-matching/Test.RabinKarp.fst
+PASS: ch33-comp-geometry/Test.GrahamScan.fst
+PASS: ch33-comp-geometry/Test.JarvisMarch.fst
+PASS: ch33-comp-geometry/Test.Segments.fst
+PASS: ch35-approximation/Test.VertexCover.fst
+
+Summary: PASS=44 FAIL=0 SKIP=3
